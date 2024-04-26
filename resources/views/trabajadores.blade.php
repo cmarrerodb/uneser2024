@@ -42,16 +42,16 @@
                     <hr/>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>GABINETE</label><br/>
-                            <label id="lbl_gabinete"></label>
+                            <label>NÚCLEO</label><br/>
+                            <label id="lbl_nucleo"></label>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>ENTE</label><br/>
-                            <label id="lbl_ente"></label>
+                            <label>TIPO</label><br/>
+                            <label id="lbl_tipo"></label>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>DEPENDENCIA</label><br/>
-                            <label id="lbl_dependencia"></label>
+                            <label>CORREO</label><br/>
+                            <label id="lbl_email"></label>
                         </div>
                     </div>
                     <hr/>
@@ -111,18 +111,19 @@
         >
             <thead>
                 <tr>
-                    <th colspan="12">LISTADOD DE TRABAJADORES</th>
+                    <th colspan="13">LISTADOD DE TRABAJADORES</th>
                 </tr>
                 <tr>
                     <th data-formatter="operateFormatter" data-events="operateEvents"></th>
                     <th data-field="cedula" data-filter-control="input" data-sortable="true">CEDULA</th>
                     <th data-field="nombre" data-filter-control="input" data-sortable="true">NOMBRES</th>
                     <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
-                    <th data-field="municipio" data-filter-control="select" data-sortable="true">MUNICIPIO</th>
-                    <th data-field="parroquia" data-filter-control="select" data-sortable="true">PARROQUIA</th>
+                    <th data-field="municipio" data-filter-control="select" data-visible="false" data-sortable="true">MUNICIPIO</th>
+                    <th data-field="parroquia" data-filter-control="select" data-visible="false" data-sortable="true">PARROQUIA</th>
                     <th data-field="nucleo" data-filter-control="select" data-sortable="true">NUCLEO</th>
                     <th data-field="tipo_elector" data-visible="true" data-filter-control="select" data-sortable="true">TIPO</th>
-                    <th data-field="telefono" data-visible="false">TELÉFONO</th>
+                    <th data-field="telefono" data-visible="true">TELÉFONO</th>
+                    <th data-field="email" data-visible="false">CORREO</th>
                     <th data-field="voto"  data-visible="true" data-filter-control="select" data-sortable="true">VOTÓ</th>
                     <th data-field="observaciones" data-visible="false" data-filter-control="select" data-sortable="true">OBSERVACIONES</th>
                     <th data-field="hora_voto" data-visible="true" data-filter-control="select" data-sortable="true">HORA VOTO</th>
@@ -283,9 +284,9 @@
                     $("#lbl_estado").html(row["estado"]);
                     $("#lbl_municipio").html(row["municipio"]);
                     $("#lbl_parroquia").html(row["parroquia"]);
-                    $("#lbl_gabinete").html(row["gabinete"]);
-                    $("#lbl_ente").html(row["ente"]);
-                    $("#lbl_dependencia").html(row["nombre_dependencia"]);
+                    $("#lbl_nucleo").html(row["nucleo"]);
+                    $("#lbl_tipo").html(row["tipo_elector"]);
+                    $("#lbl_email").html(row["email"]);
                     $("#lbl_telefono").html(row["telefono"]);
                     $("#lbl_observaciones").html(row["observaciones"]);
                     $("#dismiss").show();
