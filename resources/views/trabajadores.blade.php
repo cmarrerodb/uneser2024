@@ -111,10 +111,11 @@
         >
             <thead>
                 <tr>
-                    <th colspan="13">LISTADOD DE TRABAJADORES</th>
+                    <th colspan="14">LISTADOD DE TRABAJADORES</th>
                 </tr>
                 <tr>
                     <th data-formatter="operateFormatter" data-events="operateEvents"></th>
+                    <th data-field="id" data-filter-control="input" data-sortable="true">ID</th>
                     <th data-field="cedula" data-filter-control="input" data-sortable="true">CEDULA</th>
                     <th data-field="nombre" data-filter-control="input" data-sortable="true">NOMBRES</th>
                     <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
@@ -308,6 +309,7 @@
 						cancelButtonText: 'Cancelar',
 					}).then((result) => {
 						if (result.isConfirmed) {
+                            console.log(row);
                             // var data = {
                             //     cedula: row['cedula'],
                             // };

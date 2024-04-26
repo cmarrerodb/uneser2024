@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Trabajadores;
+use App\Models\Electore;
 use App\Models\Vtrabajador;
 
 class TrabajadorController extends Controller
@@ -90,10 +91,10 @@ class TrabajadorController extends Controller
      */
     public function destroy(string $id)
     {
-        $trabajador = Trabajadores::where('cedula', '=', $id)->first(); // Buscar el registro por cédula
+        $trabajador = Electore::where('cedula', '=', $id)->first();
         if ($trabajador) {
-            $trabajador->deleted_at = now(); // Sustituir el valor de "deleted_at" por el timestamp actual
-            $trabajador->save(); // Guardar el registro actualizado
+            $trabajador->deleted_at = now();
+            $trabajador->save();
         }
         return json_encode($trabajador);
     }
