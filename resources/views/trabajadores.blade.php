@@ -111,18 +111,17 @@
         >
             <thead>
                 <tr>
-                    <th colspan="13">LISTADOD DE TRABAJADORES</th>
+                    <th colspan="12">LISTADOD DE TRABAJADORES</th>
                 </tr>
                 <tr>
                     <th data-formatter="operateFormatter" data-events="operateEvents"></th>
                     <th data-field="cedula" data-filter-control="input" data-sortable="true">CEDULA</th>
-                    <th data-field="nombre" data-filter-control="input" data-sortable="true">NOMBRE</th>
+                    <th data-field="nombre" data-filter-control="input" data-sortable="true">NOMBRES</th>
                     <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
                     <th data-field="municipio" data-filter-control="select" data-sortable="true">MUNICIPIO</th>
                     <th data-field="parroquia" data-filter-control="select" data-sortable="true">PARROQUIA</th>
-                    <th data-field="gabinete" data-visible="false" data-filter-control="select" data-sortable="true">GABINETE</th>
-                    <th data-field="ente" data-filter-control="select" data-sortable="true">ENTE</th>
-                    <th data-field="nombre_dependencia" data-visible="false" data-filter-control="select" data-sortable="true">DEPENDENCIA</th>
+                    <th data-field="nucleo" data-filter-control="select" data-sortable="true">NUCLEO</th>
+                    <th data-field="tipo_elector" data-visible="true" data-filter-control="select" data-sortable="true">TIPO</th>
                     <th data-field="telefono" data-visible="false">TELÉFONO</th>
                     <th data-field="voto"  data-visible="true" data-filter-control="select" data-sortable="true">VOTÓ</th>
                     <th data-field="observaciones" data-visible="false" data-filter-control="select" data-sortable="true">OBSERVACIONES</th>

@@ -10,18 +10,23 @@ class Vtrabajador extends Model
     
     protected $fillable = [
         'cedula',
-        'nombre',
-        'estado',
-        'municipio',
-        'circuito',
-        'parroquia',
-        'gabinete',
-        'ente',
-        'nombre_dependencia',
+        'nombres',
         'telefono',
+        'email',
+        'cne_estado_id',
+        'estado',
+        'cne_municipio_id',
+        'municipio',
+        'cne_parroquia_id',
+        'parroquia',
+        'nucleo_id',
+        'nucleo',
+        'formacion_id',
+        'formacion',
+        'tipo_elector_id',
+        'tipo_elector',
         'voto',
-        'movilizacion',
-        'observaciones',
-        'hora_voto'
+        'hora_voto',
+        'observaciones'
     ];
 }
