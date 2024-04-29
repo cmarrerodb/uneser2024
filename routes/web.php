@@ -3,6 +3,7 @@
 use App\Http\Controllers\PermissionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrabajadorController;
+use App\Http\Controllers\AuxiliarController;
 use App\Http\Controllers\RolesController;
 
 
@@ -32,7 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('permisos', PermissionsController::class)->names('admin.permissions');
     Route::get('roles/{id}/search', [RolesController::class, 'search'])->name('admin.roles.search');    
     Route::post('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
-    Route::post('trabajador/check', [TrabajadorController::class, 'check'])->name('workers.check');    
+    Route::post('trabajador/check', [TrabajadorController::class, 'check'])->name('workers.check');
+    Route::post('trabajador/obtener_trabajador', [TrabajadorController::class, 'obtener_trabajador'])->name('workers.get.worker');
+    Route::post('trabajador/auxiliares', [AuxiliarController::class, 'auxiliares'])->name('auxiliars.main.workers');
+    Route::post('trabajador/estado_municipios', [AuxiliarController::class, 'estado_municipios'])->name('auxiliars.states.municipality');
+    Route::post('trabajador/municipio_parroquias', [AuxiliarController::class, 'municipio_parroquias'])->name('auxiliars.municipality.parish');
     // Route::get('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
     // Route::resource('trabajadores', TrabajadorController::class)->middleware('can:admin.workers.index')->names('admin.workers');
 });

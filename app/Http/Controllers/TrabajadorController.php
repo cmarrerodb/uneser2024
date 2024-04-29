@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Trabajadores;
 use App\Models\Electore;
 use App\Models\Vtrabajador;
@@ -22,16 +25,66 @@ class TrabajadorController extends Controller
     {
         return view('trabajadores');
     }
+    // public function trab_tabla(Request $request)
+    // {
+    //     $offset = $request->input('offset', 0);
+    //     $limit = $request->input('limit', 10);
+    //     $query = Vtrabajador::query();
+    //     // Aplicar el filtrado si existe
+    //     if ($request->has('filter')) {
+    //         $filters = json_decode($request->filter, true);
+    //         foreach ($filters as $column => $value) {
+    //             $query->where($column, 'like', '%' . $value . '%');
+    //         }
+    //     }
+    //     $total = $query->count();
+    //     if ($request->has('limit')) {
+    //         $trabajadores = $query->skip($offset)->take($limit)->get();
+    //     } else {
+    //         $trabajadores = $query->get();
+    //     }
+    //     return response()->json([
+    //         'total' => $total,
+    //         'rows' => $trabajadores
+    //     ]);
+    // }
+        
     public function trab_tabla(Request $request)
     {
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 10);
         $query = Vtrabajador::query();
-        // Aplicar el filtrado si existe
-        if ($request->has('filter')) {
-            $filters = json_decode($request->filter, true);
-            foreach ($filters as $column => $value) {
-                $query->where($column, 'like', '%' . $value . '%');
+        $user = Auth::user();
+        // if (!$user->hasRole('Admin')) {
+        //     $gabinetes = DB::table('user_gabinete')
+        //     ->where('user_id', $user->id)
+        //     ->pluck('gabinete_id')
+        //     ->toArray();
+        //     $query->whereIn('gabinete_id', $gabinetes);
+        // }        
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($search) {
+                $query->where('nombres', 'Ilike', '%' . $search . '%')
+                    ->orWhere('cedula', 'Ilike', '%' . $search . '%')
+                    ->orWhere('estado', 'Ilike', '%' . $search . '%')
+                    ->orWhere('municipio', 'Ilike', '%' . $search . '%')
+                    ->orWhere('parroquia', 'Ilike', '%' . $search . '%')
+                    ->orWhere('nucleo', 'Ilike', '%' . $search . '%')
+                    ->orWhere('tipo_elector', 'Ilike', '%' . $search . '%')
+                    ->orWhere('telefono', 'Ilike', '%' . $search . '%')
+                    ->orWhere('email', 'Ilike', '%' . $search . '%')
+                    ->orWhere('voto', 'Ilike', '%' . $search . '%')
+                    ->orWhere('hora_voto', 'Ilike', '%' . $search . '%')
+                    ->orWhere('observaciones', 'Ilike', '%' . $search . '%')
+                ;
+            });            
+        } else {
+            if ($request->has('filter')) {
+                $filters = json_decode($request->filter, true);
+                foreach ($filters as $column => $value) {
+                    $query->where($column, 'like', '%' . $value . '%');
+                }
             }
         }
         $total = $query->count();
@@ -45,7 +98,8 @@ class TrabajadorController extends Controller
             'rows' => $trabajadores
         ]);
     }
-        
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -120,4 +174,9 @@ class TrabajadorController extends Controller
         // }
 
     }
+    public function obtener_trabajador(Request $request) {
+        $ci = $request->ci;
+        $trabajador = VTrabajador::where('cedula','=',$ci)->get();
+        return json_encode($trabajador);
+    }    
 }

@@ -7,62 +7,105 @@
 @section('content')
     <!-- Modal -->
     <div class="modal fade" id="mdl-trabajadores" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" data-bs-backdrop="static">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" id="personal">
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <label>CÉDULA<span class="requerido">*</span></label><br/>
+                            <input id="txt_cedula" class="editar-campo form-control" type="number"> 
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8">
+                            <label>NOMBRE<span class="requerido">*</span></label><br/>
+                            <input id="txt_nombre" class="editar-campo form-control" type="text">
+                        </div>
+                    </div> 
+                    <hr/>
+                    <div class="row" id="hora_hora_voto">
                         <div class="col-xs-12 col-sm-12 col-md-4">
                             <label>VOTÓ</label><br/>
-                            <label id="lbl_voto"></label>
+                            <label id="lbl_voto" class="ver-campo"></label>
+                            <select class="editar-campo form-control" id="selVoto">
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
                             <label>HORA</label><br/>
-                            <label id="lbl_hora"></label>
+                            <label id="lbl_hora" class="ver-campo"></label>
+                            <input id="txt_hora" class="editar-campo form-control" type="time">
                         </div>
                     </div>
                     <hr/>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>ESTADO</label><br/>
-                            <label id="lbl_estado"></label>
+                            <label>ESTADO<span class="requerido">*</span></label><br/>
+                            <label id="lbl_estado" class="ver-campo"></label>
+                            <select id="selEstado" class="editar-campo form-control">
+                                <option value="">Seleccione</option>
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>MUNICIPIO</label><br/>
-                            <label id="lbl_municipio"></label>
+                            <label>MUNICIPIO<span class="requerido">*</span></label><br/>
+                            <label id="lbl_municipio" class="ver-campo"></label>
+                            <select id="selMunicipio" class="editar-campo form-control">
+                                <option value="">Seleccione</option>
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>PARROQUIA</label><br/>
-                            <label id="lbl_parroquia"></label>
+                            <label>PARROQUIA<span class="requerido">*</span></label><br/>
+                            <label id="lbl_parroquia" class="ver-campo"></label>
+                            <select id="selParroquia" class="editar-campo form-control">
+                                <option value="">Seleccione</option>                                
+                            </select>
                         </div>
                     </div>
                     <hr/>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>NÚCLEO</label><br/>
-                            <label id="lbl_nucleo"></label>
+                            <label>NÚCLEO<span class="requerido">*</span></label><br/>
+                            <label id="lbl_nucleo" class="ver-campo"></label>
+                            <select id="selNucleo" class="editar-campo form-control">
+                                <option value="">Seleccione</option>                                
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>TIPO</label><br/>
-                            <label id="lbl_tipo"></label>
+                            <label>TIPO<span class="requerido">*</span></label><br/>
+                            <label id="lbl_tipo" class="ver-campo"></label>
+                            <select id="selTipo" class="editar-campo form-control">
+                                <option value="">Seleccione</option>                                
+                            </select>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <label>CORREO</label><br/>
-                            <label id="lbl_email"></label>
+                            <label>FORMACIÓN<span class="requerido">*</span></label><br/>
+                            <label id="lbl_formacion" class="ver-campo"></label>
+                            <select id="selFormacion" class="editar-campo form-control">
+                                <option value="">Seleccione</option>                                
+                            </select>
                         </div>
                     </div>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                             <label>TELÉFONO</label><br/>
-                            <label id="lbl_telefono"></label>
+                            <label id="lbl_telefono" class="ver-campo"></label>
+                            <input id="txt_telefono" class="editar-campo form-control">
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-8">
-                            <label>OBSERVACIONES</label><br/>
-                            <label id="lbl_observaciones"></label>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <label>CORREO</label><br/>
+                            <label id="lbl_email" class="ver-campo"></label>
+                            <input id="txt_email" class="editar-campo form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 offset-md-12" >
+                            <label id="lbl_observaciones" class="ver-campo col"></label>
+                            <label >OBSERVACIONES</label><br/>
+                            <textarea id="txt_observaciones" class="editar-campo form-control"></textarea>
                         </div>
                     </div>
                     <hr/>
@@ -107,6 +150,7 @@
             data-show-multi-sort="true" 
             data-show-print="true" 
             data-locale="es-ES"
+            data-search="true"
             data-search-accent-neutralise="true"
         >
             <thead>
@@ -185,6 +229,42 @@
                 var tableHeight = $("#tbl-trabajadores")[0].scrollHeight;
                 $("html, body").animate({ scrollTop: tableHeight }, 600);
             });  
+            //////////////
+            $.ajax({
+                    type: "POST",
+                    url:   "{{ route('auxiliars.main.workers') }}",
+                    headers: {
+                        "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    // console.log(response);
+                    $.each(JSON.parse(response['estados']), function (index, item) {
+                    $('#selEstado').append($('<option>', { 
+                        value: item.id,
+                        text : item.estado 
+                    }));
+                });
+                $.each(JSON.parse(response['nucleos']), function (index, item) {
+                    $('#selNucleo').append($('<option>', { 
+                        value: item.id,
+                        text : item.nucleo 
+                    }));
+                });
+                $.each(JSON.parse(response['tipos']), function (index, item) {
+                    if (item.id != 6) {
+                    $('#selTipo').append($('<option>', { 
+                            value: item.id,
+                            text : item.tipo_elector 
+                        }));
+                    }
+                });                        
+                $('#selFormacion').append($('<option>', { 
+                    value: 1,
+                    text : 'NINGUNA' 
+                }));
+            }});
+            //////////////            
         });
         function operateFormatter(value, row, index) {
             let btns=[];
@@ -279,7 +359,12 @@
                     //////////////////  
                 },
                 'click .ver': function(e, value, row, index) {
-                    $("#modal-title").html("Ficha del trabajador "+row['cedula']+" "+row["nombre"]);
+                    console.log(row);
+                    $("#modal-title").html("Ficha del trabajador "+row['cedula']+" "+row["nombres"]);
+                    $(".ver-campo").show();
+                    $(".editar-campo").hide();
+                    $("#personal").hide();
+                    $(".requerido").hide();
                     $("#lbl_voto").html(row["voto"]);
                     $("#lbl_hora").html(row["hora_voto"]);
                     $("#lbl_estado").html(row["estado"]);
@@ -287,6 +372,7 @@
                     $("#lbl_parroquia").html(row["parroquia"]);
                     $("#lbl_nucleo").html(row["nucleo"]);
                     $("#lbl_tipo").html(row["tipo_elector"]);
+                    $("#lbl_formacion").html(row["formacion"]);
                     $("#lbl_email").html(row["email"]);
                     $("#lbl_telefono").html(row["telefono"]);
                     $("#lbl_observaciones").html(row["observaciones"]);
@@ -295,8 +381,47 @@
                     $("#mdl-trabajadores").modal("show")
                 },
                 'click .editar': function(e, value, row, index) {
-                    console.log('editar')
-                    // Lógica para editar el registro
+                // console.log(row['nucleo_id']);
+                $(".ver-campo").hide();
+                $("#hora_hora_voto").show();
+                $("#personal").show();
+                $(".editar-campo").show();
+                $(".requerido").show();
+                $("#modal-title").html("Editar trabajador "+row['cedula']+" "+row["nombres"]);
+                $("#dismiss").show();
+                $("#accept").show();
+                $("#txt_cedula").val(row["cedula"]);
+                $("#txt_nombre").val(row["nombres"]);
+                row["nombres"]= true ? $("#selVoto").val("SI"):$("#selVoto").val("NO");
+                
+                $("#txt_hora").val(row["hora_voto"]);
+                $("#txt_telefono").val(row["telefono"]);
+                $("#txt_observaciones").val(row["observaciones"]);
+                ci = row['cedula'];
+                $.ajax({
+                    type: "POST",
+                    url:   "{{ route('workers.get.worker') }}",
+                    data: {ci:ci},
+                    async:false,
+                    headers: {
+                        "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        $("#selNucleo").val(1);
+                        $("#selNucleo").val(response[0].nucleo_id);
+                        $("#selTipo").val(response[0].tipo_elector_id);
+                        $("#selFormacion").val(1);
+                        $("#selEstado").val(response[0].cne_estado_id).trigger('change');
+                        setTimeout(() => {
+                            $("#selMunicipio").val(response[0].cne_municipio_id).trigger('change');
+                            setTimeout(() => {
+                                $("#selParroquia").val(response[0].cne_parroquia_id);
+                            }, 250);
+                        }, 250);
+                    }
+                });  
+                $("#mdl-trabajadores").modal("show")
                 },
                 'click .eliminar': function(e, value, row, index) {
                     //***************************** */
@@ -338,6 +463,58 @@
 
                     //***************************** */
                 }
-            };        
+            };
+            $('#selEstado').on('change',function(){
+            var id = $(this).val();
+            $.ajax({
+                type: "POST",
+                url:   "{{ route('auxiliars.states.municipality') }}",
+                data: {id: id},
+                headers: {
+                    "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    $('#selMunicipio').empty();
+                    $('#selParroquia').empty();
+                    $('#selMunicipio').append($('<option>', { 
+                            value: "",
+                            text : "Seleccione"
+                        }));                        
+                    $.each(response, function (index, item) {
+                        $('#selMunicipio').append($('<option>', { 
+                            value: item.municipio_id,
+                            text : item.municipio
+                        }));
+                    });
+                },
+            });  
+        })
+        $('#selMunicipio').on('change',function(){
+            var id_estado = $("#selEstado").val();
+            var id_municipio = $(this).val();
+            $.ajax({
+                type: "POST",
+                url:  "{{ route('auxiliars.municipality.parish') }}",
+                data: {id_estado: id_estado,id_municipio},
+                headers: {
+                    "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    $('#selParroquia').empty();
+                    $('#selParroquia').append($('<option>', { 
+                            value: "",
+                            text : "Seleccione"
+                        }));                        
+                    $.each(response, function (index, item) {
+                        $('#selParroquia').append($('<option>', { 
+                            value: item.parroquia_id,
+                            text : item.parroquia
+                        }));
+                    });
+                },
+            });
+        });            
     </script>
 @stop
