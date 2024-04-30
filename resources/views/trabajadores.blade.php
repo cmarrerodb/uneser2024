@@ -152,7 +152,6 @@
             data-show-multi-sort="true" 
             data-show-print="true" 
             data-locale="es-VE"
-            data-search-align="left"
             data-search="true"
             data-search-accent-neutralise="true"
             data-show-refresh="true"
@@ -242,7 +241,6 @@
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    // console.log(response);
                     $.each(JSON.parse(response['estados']), function (index, item) {
                     $('#selEstado').append($('<option>', { 
                         value: item.id,
@@ -273,7 +271,26 @@
 
             var botonAgregarTrabajador = $('button[title="Agregar trabajador"]');
             $('button[title="Agregar trabajador"]').remove();
-            $('.columns-right').append(botonAgregarTrabajador);            
+            $('.columns-right').append(botonAgregarTrabajador);
+            ///////////////////
+            $('[name="btnAdd"]').on('click',function() {
+                $(".ver-campo").hide();
+                $("#hora_hora_voto").hide();
+                $("#personal").show();
+                $(".editar-campo").show();
+                $(".requerido").show();
+                $("#modal-title").html("Crear trabajador");
+                $("#dismiss").show();
+                $("#accept").show();
+                $("#txt_cedula").val('');
+                $("#txt_nombre").val('');
+                $("#selVoto").val("NO");
+                $("#txt_hora").val('');
+                $("#txt_telefono").val('');
+                $("#txt_observaciones").val('');
+                $("#mdl-trabajadores").modal("show")
+                
+            });            
         });
         function btnAgregar() {
             return {
@@ -282,7 +299,7 @@
                     text: "Agregar trabajador",
                     icon: 'bi bi-person-fill-add',
                     event: function () {
-                        console.log("agregado")
+                        
                     },
                     attributes: {
                         title: "Agregar trabajador"
@@ -377,13 +394,8 @@
                             });                    
 						}
 					});
-
-                    //***************************** */
-                    //////////////////
-                    //////////////////  
                 },
                 'click .ver': function(e, value, row, index) {
-                    console.log(row);
                     $("#modal-title").html("Ficha del trabajador "+row['cedula']+" "+row["nombres"]);
                     $(".ver-campo").show();
                     $(".editar-campo").hide();
@@ -405,46 +417,45 @@
                     $("#mdl-trabajadores").modal("show")
                 },
                 'click .editar': function(e, value, row, index) {
-                                $(".ver-campo").hide();
-                $("#hora_hora_voto").show();
-                $("#personal").show();
-                $(".editar-campo").show();
-                $(".requerido").show();
-                $("#modal-title").html("Editar trabajador "+row['cedula']+" "+row["nombres"]);
-                $("#dismiss").show();
-                $("#accept").show();
-                $("#txt_cedula").val(row["cedula"]);
-                $("#txt_nombre").val(row["nombres"]);
-                row["nombres"]= true ? $("#selVoto").val("SI"):$("#selVoto").val("NO");
-                
-                $("#txt_hora").val(row["hora_voto"]);
-                $("#txt_telefono").val(row["telefono"]);
-                $("#txt_observaciones").val(row["observaciones"]);
-                ci = row['cedula'];
-                $.ajax({
-                    type: "POST",
-                    url:   "{{ route('workers.get.worker') }}",
-                    data: {ci:ci},
-                    async:false,
-                    headers: {
-                        "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
-                    },
-                    dataType: "JSON",
-                    success: function (response) {
-                        $("#selNucleo").val(1);
-                        $("#selNucleo").val(response[0].nucleo_id);
-                        $("#selTipo").val(response[0].tipo_elector_id);
-                        $("#selFormacion").val(1);
-                        $("#selEstado").val(response[0].cne_estado_id).trigger('change');
-                        setTimeout(() => {
-                            $("#selMunicipio").val(response[0].cne_municipio_id).trigger('change');
+                    $(".ver-campo").hide();
+                    $("#hora_hora_voto").show();
+                    $("#personal").show();
+                    $(".editar-campo").show();
+                    $(".requerido").show();
+                    $("#modal-title").html("Editar trabajador "+row['cedula']+" "+row["nombres"]);
+                    $("#dismiss").show();
+                    $("#accept").show();
+                    $("#txt_cedula").val(row["cedula"]);
+                    $("#txt_nombre").val(row["nombres"]);
+                    row["nombres"]= true ? $("#selVoto").val("SI"):$("#selVoto").val("NO");
+                    $("#txt_hora").val(row["hora_voto"]);
+                    $("#txt_telefono").val(row["telefono"]);
+                    $("#txt_observaciones").val(row["observaciones"]);
+                    ci = row['cedula'];
+                    $.ajax({
+                        type: "POST",
+                        url:   "{{ route('workers.get.worker') }}",
+                        data: {ci:ci},
+                        async:false,
+                        headers: {
+                            "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            $("#selNucleo").val(1);
+                            $("#selNucleo").val(response[0].nucleo_id);
+                            $("#selTipo").val(response[0].tipo_elector_id);
+                            $("#selFormacion").val(1);
+                            $("#selEstado").val(response[0].cne_estado_id).trigger('change');
                             setTimeout(() => {
-                                $("#selParroquia").val(response[0].cne_parroquia_id);
+                                $("#selMunicipio").val(response[0].cne_municipio_id).trigger('change');
+                                setTimeout(() => {
+                                    $("#selParroquia").val(response[0].cne_parroquia_id);
+                                }, 250);
                             }, 250);
-                        }, 250);
-                    }
-                });  
-                $("#mdl-trabajadores").modal("show")
+                        }
+                    });  
+                    $("#mdl-trabajadores").modal("show")
                 },
                 'click .eliminar': function(e, value, row, index) {
                     //***************************** */
@@ -458,13 +469,9 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
                             console.log(row);
-                            // var data = {
-                            //     cedula: row['cedula'],
-                            // };
                             $.ajax({
                                 type: "DELETE",
                                 url: "trabajadores/"+row['cedula'],
-                                // data: data,
                                 headers: {
                                     "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
                                 },
@@ -483,8 +490,6 @@
                             });                    
 						}
 					});
-
-                    //***************************** */
                 }
             };
             $('#selEstado').on('change',function(){
@@ -542,7 +547,6 @@
             ///////////////////
             $("#accept").on('click',function(e) {
             e.preventDefault();
-            console.log('actualizando...');
             let titulo = $("#modal-title").html();
             if (titulo.includes("Editar")) {
                 let data = {
@@ -597,59 +601,59 @@
                         },
                     });                        
                 }
-                // $("#mdl-trabajadores").modal("hide")
             } else {
                 let data = {
-                cedula:$("#txt_cedula").val(),
-                nombre:$("#txt_nombre").val(),
-                id_estado:$("#selEstado").val(),
-                id_municipio:$("#selMunicipio").val(),
-                id_parroquia:$("#selParroquia").val(),
-                id_gabinete:$("#selGabinete").val(),
-                id_ente:$("#selEnte").val(),
-                id_dependencia:$("#selDependencia").val(),
-                telefono:$("#txt_telefono").val(),
-                observaciones:$("#txt_observaciones").val(),
-            };
-            $.ajax({
-                type: "POST",
-                url:   "{{ route('admin.workers.store') }}",
-                data: data,
-                headers: {
-                    "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    if(response.errors) {
-                        let errores = '';
-                        let campos=[];
-                        $.each(response.errors, function(llave, valor) {
-                            errores += '<li style="text-align:left !important;">'+campo(valor[0])+'</li>'
-                            $("#"+llave).addClass('bg-danger');
-                            campos.push(llave[0]);
-                        });
-                        errores = '<ul>'+errores+'</ul>'
-                        Swal.fire({
+                    cedula: $("#txt_cedula").val(),
+                    nombres: $("#txt_nombre").val(),
+                    voto: $("#selVoto").val(),
+                    hora_voto: $("#txt_hora").val(),
+                    cne_estado_id: $("#selEstado").val(),
+                    cne_municipio_id: $("#selMunicipio").val(),
+                    cne_parroquia_id: $("#selParroquia").val(),
+                    nucleo_id: $("#selNucleo").val(),
+                    tipo_elector_id: $("#selTipo").val(),
+                    formacion_id: $("#selFormacion").val(),
+                    telefono: $("#txt_telefono").val(),
+                    email: $("#txt_email").val(),
+                    observaciones: $("#txt_observaciones").val(),
+                };
+                $.ajax({
+                    type: "POST",
+                    url:   "{{ route('admin.workers.store') }}",
+                    data: data,
+                    headers: {
+                        "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        if(response.errors) {
+                            console.log(response.errors)
+                            let errores = '';
+                            let campos=[];
+                            $.each(response.errors, function(llave, valor) {
+                                errores += '<li style="text-align:left !important;">'+valor[0]+'</li>'
+                                $("#"+llave).addClass('bg-danger');
+                                campos.push(llave[0]);
+                            });
+                            errores = '<ul>'+errores+'</ul>'
+                            Swal.fire({
                                 icon: 'warning',
                                 title: 'SE HAN ENCONTRADO LOS SIGUIENTES ERRORES!',
                                 html: errores,
                                 showConfirmButton: 'Cerrar'
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                setTimeout(function() {
-                                    $.each(response.errors, function(k, v) {
-                                        $("#"+convertir(k)).addClass('bg-danger');
-                                    });
-                                },250);
-                            }
-                        });               
-                        
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'SE HA CREADO CORRECTAMENTE EL REGISTRO',
+                                showConfirmButton: 'Cerrar'
+                            })
+                            $(['name="refresh"']).trigger('click')
+                            $("#mdl-trabajadores").modal("hide")
+                        }
                     }
-                }
-            }); 
+                }); 
             }                
-
         });
-        ///////////////////
     </script>
 @stop

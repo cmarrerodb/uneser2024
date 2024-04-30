@@ -113,7 +113,55 @@ class TrabajadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'cedula' => 'required|numeric|unique:electores,cedula',
+            'nombres' => 'required',
+            'cne_estado_id' => 'required',
+            'cne_municipio_id' => 'required',
+            'cne_parroquia_id' => 'required',
+            'nucleo_id' => 'required',
+            'tipo_elector_id' => 'required',
+            'formacion_id' => 'required',
+            'telefono' => 'required|numeric',
+            'email' => 'sometimes|nullable|email',
+        ], [
+            'required' => 'El campo :attribute es obligatorio.',
+            'numeric' => 'El campo :attribute debe ser numérico.',
+            'email' => 'El campo :attribute debe ser un correo válido.',
+            'unique' => 'La :attribute ya está registrada.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Error en la validación', 'errors' => $validator->errors()], 200);
+        }
+        //////////////
+        $voto = $request->voto = 'SI' ? true: false;
+        $datos = [
+            'cedula' => $request->cedula,
+            'nombres' => $request->nombres,
+            'voto' => $voto,
+            'hora_voto' => $request->hora_voto,
+            'cne_estado_id' => $request->cne_estado_id,
+            'cne_municipio_id' => $request->cne_municipio_id,
+            'cne_parroquia_id' => $request->cne_parroquia_id,
+            'nucleo_id' => $request->nucleo_id,
+            'tipo_elector_id' => $request->tipo_elector_id,
+            'formacion_id' => $request->formacion_id,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+        ];
+        if ($request->has('observaciones')) {
+            $datos['observaciones'] = $request->observaciones;
+        }
+        if ($request->has('hora_voto') && $voto) {
+            $datos['hora_voto'] = $request->hora_voto;
+        }
+        // try {
+            // Electore::where('cedula', $request->cedula)->update($datos);
+            Electore::create($datos);
+            return response()->json(['message' => 'Trabajador creado exitosamente','status' =>200], 200);
+        // } catch (\Exception $e) {
+        //     return response()->json(['message' => 'Ha ocurrido un error en la creación del trabajador','status'=>500], 200);
+        // }   
     }
 
     /**

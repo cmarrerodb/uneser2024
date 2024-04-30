@@ -21,7 +21,10 @@ class AuxiliarController extends Controller
     }    
     public function estado_municipios(Request $request) {
         $id = $request->id;
-        $municipios = CneMunicipio::select('municipio_id', 'estado_id','municipio')->where('estado_id','=',$id)->get();
+        $municipios = CneMunicipio::select('municipio_id', 'estado_id','municipio')
+        ->where('estado_id','=',$id)
+        ->orderBy('municipio')
+        ->get();
         return json_encode($municipios);
     }    
     public function municipio_parroquias(Request $request) {
@@ -30,6 +33,7 @@ class AuxiliarController extends Controller
         $parroquias = DB::table('cne_parroquias')->select('parroquia_id','estado_id','municipio_id','parroquia')
         ->where('estado_id','=',$id_estado)
         ->where('municipio_id','=',$id_municipio)
+        ->orderBy('parroquia')
         ->get();
         return json_encode($parroquias);
     }    
@@ -39,11 +43,11 @@ class AuxiliarController extends Controller
         return json_encode($estado);
     }
     public function nucleos() {
-        $nucleo = Nucleo::select('id','nucleo')->get();
+        $nucleo = Nucleo::select('id','nucleo')->orderBy('nucleo')->get();
         return json_encode($nucleo);
     }
     public function tipos() {
-        $nucleo = TipoElector::select('id','tipo_elector')->get();
+        $nucleo = TipoElector::select('id','tipo_elector')->orderBy('tipo_elector')->get();
         return json_encode($nucleo);
     }
     public function formacion() {
