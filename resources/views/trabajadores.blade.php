@@ -131,6 +131,7 @@
         <table 
             id="tbl-trabajadores" 
             class="table table-hover" 
+            data-toolbar="#toolbar"
             data-toggle="table" 
             data-show-columns="true" 
             data-url="{{route('trab_tabla')}}" 
@@ -141,6 +142,7 @@
             data-custom-all-text="Todos"
             data-page-size-func="pageSizeFunc"
             data-page-size="10" 
+            data-buttons="btnAgregar"
             data-show-export="true" 
             data-export-data-type="all" 
             data-export-types="['csv', 'json', 'excel']" 
@@ -149,9 +151,11 @@
             data-show-search-clear-button="true" 
             data-show-multi-sort="true" 
             data-show-print="true" 
-            data-locale="es-ES"
+            data-locale="es-VE"
+            data-search-align="left"
             data-search="true"
             data-search-accent-neutralise="true"
+            data-show-refresh="true"
         >
             <thead>
                 <tr>
@@ -264,8 +268,28 @@
                     text : 'NINGUNA' 
                 }));
             }});
-            //////////////            
+            $('[name="btnAdd"]').removeClass('btn-secondary');
+            $('[name="btnAdd"]').addClass('btn-success');
+
+            var botonAgregarTrabajador = $('button[title="Agregar trabajador"]');
+            $('button[title="Agregar trabajador"]').remove();
+            $('.columns-right').append(botonAgregarTrabajador);            
         });
+        function btnAgregar() {
+            return {
+                btnAdd: {
+                    class: 'btn-success',
+                    text: "Agregar trabajador",
+                    icon: 'bi bi-person-fill-add',
+                    event: function () {
+                        console.log("agregado")
+                    },
+                    attributes: {
+                        title: "Agregar trabajador"
+                    }
+                }
+            }
+        }        
         function operateFormatter(value, row, index) {
             let btns=[];
             @php
@@ -381,8 +405,7 @@
                     $("#mdl-trabajadores").modal("show")
                 },
                 'click .editar': function(e, value, row, index) {
-                // console.log(row['nucleo_id']);
-                $(".ver-campo").hide();
+                                $(".ver-campo").hide();
                 $("#hora_hora_voto").show();
                 $("#personal").show();
                 $(".editar-campo").show();

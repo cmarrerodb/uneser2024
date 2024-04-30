@@ -136,7 +136,6 @@ class TrabajadorController extends Controller
      * Update the specified resource in storage.
      */
     public function actualizar_trabajador(Request $request) {
-        info($request->all());
         $validator = Validator::make($request->all(), [
             'cedula' => 'required|numeric',
             'nombres' => 'required',
