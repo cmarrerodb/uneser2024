@@ -135,9 +135,58 @@ class TrabajadorController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function actualizar_trabajador(Request $request) {
+        info($request->all());
+        $validator = Validator::make($request->all(), [
+            'cedula' => 'required|numeric',
+            'nombres' => 'required',
+            'cne_estado_id' => 'required',
+            'cne_municipio_id' => 'required',
+            'cne_parroquia_id' => 'required',
+            'nucleo_id' => 'required',
+            'tipo_elector_id' => 'required',
+            'formacion_id' => 'required',
+            'telefono' => 'required|numeric',
+            'email' => 'sometimes|nullable|email',
+        ], [
+            'required' => 'El campo :attribute es obligatorio.',
+            'numeric' => 'El campo :attribute debe ser numérico.',
+            'email' => 'El campo :attribute debe ser un correo válido.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Error en la validación', 'errors' => $validator->errors()], 200);
+        }
+        //////////////
+        $voto = $request->voto = 'SI' ? true: false;
+        $datos = [
+            'voto' => $voto,
+            'hora_voto' => $request->hora_voto,
+            'cne_estado_id' => $request->cne_estado_id,
+            'cne_municipio_id' => $request->cne_municipio_id,
+            'cne_parroquia_id' => $request->cne_parroquia_id,
+            'nucleo_id' => $request->nucleo_id,
+            'tipo_elector_id' => $request->tipo_elector_id,
+            'formacion_id' => $request->formacion_id,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+        ];
+        if ($request->has('observaciones')) {
+            $datos['observaciones'] = $request->observaciones;
+        }
+        if ($request->has('hora_voto') && $voto) {
+            $datos['hora_voto'] = $request->hora_voto;
+        }
+        try {
+            Electore::where('cedula', $request->cedula)->update($datos);
+            return response()->json(['message' => 'Trabajador actualizado exitosamente','status' =>200], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Ha ocurrido un error en la actualización del trabajador','status'=>500], 200);
+        }        
+        //////////////
+    }
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -153,26 +202,14 @@ class TrabajadorController extends Controller
         return json_encode($trabajador);
     }
     public function check(Request $request) {
-        // dd($request->all());
         $cedula = $request->cedula;
-        // $voto = $request->voto === 'SI' ? true : false; // Convertir 'SI' a true, de lo contrario a false
-        $voto = true; // Convertir 'SI' a true, de lo contrario a false
+        $voto = true;
         $horaVoto = $request->hora_voto;
-    
-        $trabajador = Trabajadores::where('cedula', '=',$cedula)->first(); // Buscar el trabajador por su cédula
-        // dd($trabajador);
-        // if ($trabajador) {
-            // $trabajador->voto = 't'; // Actualizar el campo voto
-            $trabajador->voto = $voto; // Actualizar el campo voto
-            // $trabajador->hora_voto = true; // Actualizar el campo hora_voto
-            $trabajador->hora_voto = $horaVoto; // Actualizar el campo hora_voto
-            $trabajador->save(); // Guardar los cambios en la base de datos
-            return json_encode($trabajador);
-            // Otra lógica después de actualizar los campos
-        // } else {
-        //     // Manejar el caso en el que no se encuentra el trabajador con la cédula proporcionada
-        // }
-
+        $trabajador = Electore::where('cedula', '=',$cedula)->first();
+        $trabajador->voto = $voto;
+        $trabajador->hora_voto = $horaVoto;
+        $trabajador->save();
+        return json_encode($trabajador);
     }
     public function obtener_trabajador(Request $request) {
         $ci = $request->ci;

@@ -20,7 +20,7 @@
                             <input id="txt_cedula" class="editar-campo form-control" type="number"> 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-8">
-                            <label>NOMBRE<span class="requerido">*</span></label><br/>
+                            <label>NOMBRES<span class="requerido">*</span></label><br/>
                             <input id="txt_nombre" class="editar-campo form-control" type="text">
                         </div>
                     </div> 
@@ -103,8 +103,8 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 offset-md-12" >
-                            <label id="lbl_observaciones" class="ver-campo col"></label>
                             <label >OBSERVACIONES</label><br/>
+                            <label id="lbl_observaciones" class="ver-campo col"></label>
                             <textarea id="txt_observaciones" class="editar-campo form-control"></textarea>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                     <th data-formatter="operateFormatter" data-events="operateEvents"></th>
                     <th data-field="id" data-filter-control="input" data-sortable="true">ID</th>
                     <th data-field="cedula" data-filter-control="input" data-sortable="true">CEDULA</th>
-                    <th data-field="nombre" data-filter-control="input" data-sortable="true">NOMBRES</th>
+                    <th data-field="nombres" data-filter-control="input" data-sortable="true">NOMBRES</th>
                     <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
                     <th data-field="municipio" data-filter-control="select" data-visible="false" data-sortable="true">MUNICIPIO</th>
                     <th data-field="parroquia" data-filter-control="select" data-visible="false" data-sortable="true">PARROQUIA</th>
@@ -490,31 +490,143 @@
                 },
             });  
         })
-        $('#selMunicipio').on('change',function(){
-            var id_estado = $("#selEstado").val();
-            var id_municipio = $(this).val();
+            $('#selMunicipio').on('change',function(){
+                var id_estado = $("#selEstado").val();
+                var id_municipio = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url:  "{{ route('auxiliars.municipality.parish') }}",
+                    data: {id_estado: id_estado,id_municipio},
+                    headers: {
+                        "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        $('#selParroquia').empty();
+                        $('#selParroquia').append($('<option>', { 
+                                value: "",
+                                text : "Seleccione"
+                            }));                        
+                        $.each(response, function (index, item) {
+                            $('#selParroquia').append($('<option>', { 
+                                value: item.parroquia_id,
+                                text : item.parroquia
+                            }));
+                        });
+                    },
+                });
+            });  
+            ///////////////////
+            $("#accept").on('click',function(e) {
+            e.preventDefault();
+            console.log('actualizando...');
+            let titulo = $("#modal-title").html();
+            if (titulo.includes("Editar")) {
+                let data = {
+                    cedula: $("#txt_cedula").val(),
+                    nombres: $("#txt_nombre").val(),
+                    voto: $("#selVoto").val(),
+                    hora_voto: $("#txt_hora").val(),
+                    cne_estado_id: $("#selEstado").val(),
+                    cne_municipio_id: $("#selMunicipio").val(),
+                    cne_parroquia_id: $("#selParroquia").val(),
+                    nucleo_id: $("#selNucleo").val(),
+                    tipo_elector_id: $("#selTipo").val(),
+                    formacion_id: $("#selFormacion").val(),
+                    telefono: $("#txt_telefono").val(),
+                    email: $("#txt_email").val(),
+                    observaciones: $("#txt_observaciones").val(),
+                }
+                if(data.voto == "SI" && data.hora_voto =="") {
+                    alert("Si indicó que votó, debe colocar la hora en la cual votó ")
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url:  "{{ route('workers.update.worker') }}",
+                        data: data,
+                        headers: {
+                            "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            if (response.status != 200) {
+                                let resp_err = "Han ocurrido un error y el trabajador no ha sido actualizado: <br/><ul style='text-align:left;'>";
+                                $.each(response.errors, function(i,v) {
+                                    resp_err += "<li>"+v[0]+"</li>";
+                                });
+                                resp_err += "</ul>";
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'HA OCURRIDO UN ERROR',
+                                    html: resp_err,
+                                    showConfirmButton: 'Cerrar'
+                                });                                    
+                            } else {
+                                $('#tbl-trabajadores').bootstrapTable('refresh');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'REGISTRO ACTUALIZADO EXITOSAMENTE',
+                                    text: 'Se han actualizado exitosamente los datos del trabajador',
+                                    showConfirmButton: 'Cerrar'
+                                });                                    
+                                $("#mdl-trabajadores").modal("hide")
+                            }
+                        },
+                    });                        
+                }
+                // $("#mdl-trabajadores").modal("hide")
+            } else {
+                let data = {
+                cedula:$("#txt_cedula").val(),
+                nombre:$("#txt_nombre").val(),
+                id_estado:$("#selEstado").val(),
+                id_municipio:$("#selMunicipio").val(),
+                id_parroquia:$("#selParroquia").val(),
+                id_gabinete:$("#selGabinete").val(),
+                id_ente:$("#selEnte").val(),
+                id_dependencia:$("#selDependencia").val(),
+                telefono:$("#txt_telefono").val(),
+                observaciones:$("#txt_observaciones").val(),
+            };
             $.ajax({
                 type: "POST",
-                url:  "{{ route('auxiliars.municipality.parish') }}",
-                data: {id_estado: id_estado,id_municipio},
+                url:   "{{ route('admin.workers.store') }}",
+                data: data,
                 headers: {
                     "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    $('#selParroquia').empty();
-                    $('#selParroquia').append($('<option>', { 
-                            value: "",
-                            text : "Seleccione"
-                        }));                        
-                    $.each(response, function (index, item) {
-                        $('#selParroquia').append($('<option>', { 
-                            value: item.parroquia_id,
-                            text : item.parroquia
-                        }));
-                    });
-                },
-            });
-        });            
+                    if(response.errors) {
+                        let errores = '';
+                        let campos=[];
+                        $.each(response.errors, function(llave, valor) {
+                            errores += '<li style="text-align:left !important;">'+campo(valor[0])+'</li>'
+                            $("#"+llave).addClass('bg-danger');
+                            campos.push(llave[0]);
+                        });
+                        errores = '<ul>'+errores+'</ul>'
+                        Swal.fire({
+                                icon: 'warning',
+                                title: 'SE HAN ENCONTRADO LOS SIGUIENTES ERRORES!',
+                                html: errores,
+                                showConfirmButton: 'Cerrar'
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                setTimeout(function() {
+                                    $.each(response.errors, function(k, v) {
+                                        $("#"+convertir(k)).addClass('bg-danger');
+                                    });
+                                },250);
+                            }
+                        });               
+                        
+                    }
+                }
+            }); 
+            }                
+
+        });
+        ///////////////////
     </script>
 @stop
