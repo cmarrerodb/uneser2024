@@ -53,19 +53,26 @@ class TrabajadorController extends Controller
     {
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 10);
-        $query = Vtrabajador::query();
         $user = Auth::user();
-        // if (!$user->hasRole('Admin')) {
-        //     $gabinetes = DB::table('user_gabinete')
-        //     ->where('user_id', $user->id)
-        //     ->pluck('gabinete_id')
-        //     ->toArray();
-        //     $query->whereIn('gabinete_id', $gabinetes);
-        // }        
+        $query = Vtrabajador::query();
+        if (!$user->hasRole('Admin')) {
+            $nucleos = DB::table('users_nucleos')
+            ->select('nucleo_id')
+            ->where('user_id','=',$user->id)
+            ->get();
+            $anid = [];
+            foreach ($nucleos as $key => $value) {
+                array_push($anid, $value->nucleo_id);
+            }
+            $query->whereIn('nucleo_id',$anid);
+        }
+        
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function ($query) use ($search) {
-                $query->where('nombres', 'Ilike', '%' . $search . '%')
+            $query->where(function ($query) use ($user,$search) {
+                $query
+                    ->orWhere('nombres', 'Ilike', '%' . $search . '%')
+                    ->orWhere('cedula', 'Ilike', '%' . $search . '%')
                     ->orWhere('cedula', 'Ilike', '%' . $search . '%')
                     ->orWhere('estado', 'Ilike', '%' . $search . '%')
                     ->orWhere('municipio', 'Ilike', '%' . $search . '%')
