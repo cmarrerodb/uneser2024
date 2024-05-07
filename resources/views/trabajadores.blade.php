@@ -291,6 +291,7 @@
                 $("#mdl-trabajadores").modal("show")
                 
             });            
+        
         });
         function btnAgregar() {
             return {
@@ -307,6 +308,7 @@
                 }
             }
         }        
+        
         function operateFormatter(value, row, index) {
             let btns=[];
             @php
@@ -455,6 +457,7 @@
                             }, 250);
                         }
                     });  
+                    
                     $("#mdl-trabajadores").modal("show")
                 },
                 'click .eliminar': function(e, value, row, index) {
@@ -468,7 +471,6 @@
 						cancelButtonText: 'Cancelar',
 					}).then((result) => {
 						if (result.isConfirmed) {
-                            console.log(row);
                             $.ajax({
                                 type: "DELETE",
                                 url: "trabajadores/"+row['cedula'],
@@ -477,7 +479,6 @@
                                 },
                                 dataType: "JSON",
                                 success: function (response) {
-                                    console.log(response);
                                     $('#tbl-trabajadores').bootstrapTable('refresh');
                                     Swal.fire({
                                         icon: 'success',
@@ -600,6 +601,7 @@
                             }
                         },
                     });                        
+                
                 }
             } else {
                 let data = {

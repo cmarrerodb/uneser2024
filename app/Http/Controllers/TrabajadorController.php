@@ -133,7 +133,6 @@ class TrabajadorController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'Error en la validación', 'errors' => $validator->errors()], 200);
         }
-        //////////////
         $voto = $request->voto = 'SI' ? true: false;
         $datos = [
             'cedula' => $request->cedula,
@@ -155,13 +154,13 @@ class TrabajadorController extends Controller
         if ($request->has('hora_voto') && $voto) {
             $datos['hora_voto'] = $request->hora_voto;
         }
-        // try {
-            // Electore::where('cedula', $request->cedula)->update($datos);
+        try {
+            Electore::where('cedula', $request->cedula)->update($datos);
             Electore::create($datos);
             return response()->json(['message' => 'Trabajador creado exitosamente','status' =>200], 200);
-        // } catch (\Exception $e) {
-        //     return response()->json(['message' => 'Ha ocurrido un error en la creación del trabajador','status'=>500], 200);
-        // }   
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Ha ocurrido un error en la creación del trabajador','status'=>500], 200);
+        }   
     }
 
     /**
@@ -185,7 +184,7 @@ class TrabajadorController extends Controller
      */
     public function actualizar_trabajador(Request $request) {
         $validator = Validator::make($request->all(), [
-            'cedula' => 'required|numeric',
+            'cedula' => 'required|numeric|unique:electores,cedula',
             'nombres' => 'required',
             'cne_estado_id' => 'required',
             'cne_municipio_id' => 'required',
@@ -199,6 +198,7 @@ class TrabajadorController extends Controller
             'required' => 'El campo :attribute es obligatorio.',
             'numeric' => 'El campo :attribute debe ser numérico.',
             'email' => 'El campo :attribute debe ser un correo válido.',
+            'unique' => 'La :attribute ya está registrada.',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => 'Error en la validación', 'errors' => $validator->errors()], 200);
