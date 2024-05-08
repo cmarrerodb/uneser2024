@@ -519,6 +519,7 @@
                 },
             });  
         })
+        
             $('#selMunicipio').on('change',function(){
                 var id_estado = $("#selEstado").val();
                 var id_municipio = $(this).val();

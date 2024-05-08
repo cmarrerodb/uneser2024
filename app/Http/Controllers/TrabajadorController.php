@@ -25,6 +25,10 @@ class TrabajadorController extends Controller
     {
         return view('trabajadores');
     }
+    public function seguimiento()
+    {
+        return view('seguimiento');
+    }
     // public function trab_tabla(Request $request)
     // {
     //     $offset = $request->input('offset', 0);
@@ -88,8 +92,7 @@ class TrabajadorController extends Controller
             });            
         } else {
             if ($request->has('filter')) {
-                $filters = json_decode($request->filter, true);
-                foreach ($filters as $column => $value) {
+                $filters = json_decode($request->filter, true);foreach ($filters as $column => $value) {
                     $query->where($column, 'like', '%' . $value . '%');
                 }
             }
@@ -269,5 +272,61 @@ class TrabajadorController extends Controller
         $ci = $request->ci;
         $trabajador = VTrabajador::where('cedula','=',$ci)->get();
         return json_encode($trabajador);
-    }    
+    }
+    public function trab_seguimiento(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $user = Auth::user();
+        $query = Vtrabajador::query();
+        $query->whereNull('voto');
+        if (!$user->hasRole('Admin')) {
+            $nucleos = DB::table('users_nucleos')
+            ->select('nucleo_id')
+            ->where('user_id','=',$user->id)
+            ->get();
+            $anid = [];
+            foreach ($nucleos as $key => $value) {
+                array_push($anid, $value->nucleo_id);
+            }
+            $query->whereIn('nucleo_id',$anid);
+        }
+        
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($user,$search) {
+                $query
+                    ->orWhere('nombres', 'Ilike', '%' . $search . '%')
+                    ->orWhere('cedula', 'Ilike', '%' . $search . '%')
+                    ->orWhere('cedula', 'Ilike', '%' . $search . '%')
+                    ->orWhere('estado', 'Ilike', '%' . $search . '%')
+                    ->orWhere('municipio', 'Ilike', '%' . $search . '%')
+                    ->orWhere('parroquia', 'Ilike', '%' . $search . '%')
+                    ->orWhere('nucleo', 'Ilike', '%' . $search . '%')
+                    ->orWhere('tipo_elector', 'Ilike', '%' . $search . '%')
+                    ->orWhere('telefono', 'Ilike', '%' . $search . '%')
+                    ->orWhere('email', 'Ilike', '%' . $search . '%')
+                    ->orWhere('voto', 'Ilike', '%' . $search . '%')
+                    ->orWhere('hora_voto', 'Ilike', '%' . $search . '%')
+                    ->orWhere('observaciones', 'Ilike', '%' . $search . '%')
+                ;
+            });            
+        } else {
+            if ($request->has('filter')) {
+                $filters = json_decode($request->filter, true);foreach ($filters as $column => $value) {
+                    $query->where($column, 'like', '%' . $value . '%');
+                }
+            }
+        }
+        $total = $query->count();
+        if ($request->has('limit')) {
+            $trabajadores = $query->skip($offset)->take($limit)->get();
+        } else {
+            $trabajadores = $query->get();
+        }
+        return response()->json([
+            'total' => $total,
+            'rows' => $trabajadores
+        ]);
+    }
 }

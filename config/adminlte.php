@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'Electoral2024',
-    'title_prefix' => 'Electoral2024 | ',
+    'title' => 'UNESR 28J',
+    'title_prefix' => 'UNESR 28J | ',
     'title_postfix' => '',
 
     /*
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Electoral</b>2024',
+    'logo' => '<b>UNESR</b>28J',
     'logo_img' => 'vendor/adminlte/dist/img/elecciones.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -111,7 +111,8 @@ return [
         'img' => [
             'path' => 'vendor/adminlte/dist/img/elecciones.png',
             'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
+            'effect' => 'animation__wobble',
+            // 'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
         ],
@@ -220,7 +221,7 @@ return [
     'sidebar_collapse' => false,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
-    'sidebar_collapse_remember_no_transition' => true,
+    'sidebar_collapse_remember_no_transition' => false,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
@@ -317,12 +318,44 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
+        // [
+        //     'text'        => 'Trabajadores',
+        //     'url'         => 'trabajadores',
+        //     'icon'        => 'fas fa-user-tie',
+        //     'can'         => 'admin.workers.list',
+        // ],
+        /////////
         [
-            'text'        => 'Trabajadores',
-            'url'         => 'trabajadores',
-            'icon'        => 'fas fa-user-tie',
-            'can'         => 'admin.workers.list',
-        ],
+            'text'    => 'Trabajadores',
+            'icon'    => 'fas fa-user-tie',
+            'can'     => '',
+            'submenu' => [
+
+                // [
+                //     'text' => 'Trabajadores Reportaron',
+                //     'icon' => '',
+                //     'url'  => '#',
+                // ],
+                // [
+                //     'text' => 'Trabajadores No Reportaron',
+                //     'icon' => '',
+                //     'url'  => '#',
+                // ],
+                [
+                    'text' => 'Trabajadores',
+                    'icon' => 'fas fa-user-tie',
+                    'url'  => 'trabajadores',
+                    'can'  => 'admin.workers.list'
+                ],
+                [
+                    'text' => 'Seguimiento',
+                    'icon' => 'fas fa-clock',
+                    'url'  => 'seguimiento',
+                    'can'  => 'workers.following'
+                ],                
+            ],
+        ],        
+        /////////
         [
             'text'    => 'Gráficos',
             'icon'    => 'fas fa-chart-line',
