@@ -15,7 +15,7 @@
             </div>
         </div>
         <table 
-            id="tbl-trabajadores" 
+            id="tbl-seguimiento" 
             class="table table-hover" 
             data-toolbar="#toolbar"
             data-toggle="table" 
@@ -46,13 +46,12 @@
                 </tr>
                 <tr>
                     <th data-formatter="operateFormatter" data-events="operateEvents"></th>
-                    <th data-field="hota_voto" data-visible="false" >HORA</th>
-                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="hora_voto" data-visible="false" >HORA</th>
+                    <th data-field="observaciones" data-visible="false">OBSERVACIONES</th>
                     <th data-field="telefono" data-sortable="true">TELÉFONO|</th>
                     <th data-field="cedula"  data-sortable="true">CÉDULA</th>
                     <th data-field="nombres" data-sortable="true">NOMBRES</th>
                     <th data-field="nucleo" data-sortable="true">NÚCLEO</th>
-                    <!-- <th data-field="observaciones" data-sortable="true">OBSERVACIONES</th> -->
                 </tr>
             </thead>
             <tbody></tbody>
@@ -74,7 +73,7 @@
     <link href="{{ URL::asset('assets/libs/tui-chart/tui-chart.min.css') }}" rel="stylesheet">
 @stop
 @section('js')
-    <script src="{{ asset('/assets/js/jquery-3.5.1.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery-3.5.1.js') }}"></script>
     <script src="{{ asset('/assets/libs/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/libs/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -82,7 +81,6 @@
     <script src="{{ asset('/assets/js/jspdf.plugin.autotable.js') }}"></script>
     <script src="{{ asset('/assets/js/bootstrap-table.min.js') }}"></script>
     <script src="{{ asset('/assets/js/bootstrap-table-locale-all.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/extensions/fixed-columns/bootstrap-table-fixed-columns.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/extensions/multiple-sort/bootstrap-table-multiple-sort.js"></script>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/extensions/print/bootstrap-table-print.min.js"></script>
@@ -101,67 +99,22 @@
 <script>
     function operateFormatter(value, row, index) {
         let btns=[];
-        @php
-        $usrChk = auth()->check() && auth()->user()->can('admin.workers.check');
-        $usrViw = auth()->check() && auth()->user()->can('admin.workers.view');
-        $usrEdt = auth()->check() && auth()->user()->can('admin.workers.edit');
-        $usrDes = auth()->check() && auth()->user()->can('admin.workers.destroy');
-        @endphp
-        @if($usrChk)
         btn_check = ['<form> @csrf <a class="chequear " href="javascript:void(0)" title="Chequear">',
-            '<i class="fas fa-check text-info"></i>',
-            '</a></form>  '].join('')
-        @else
-            btn_check = ''
-        @endif            
+        '<i class="fas fa-check text-info"></i>',
+        '</a></form>  '].join('')
         btns = [
             btn_check
-            ].join('');
+        ].join('');
         return[btns];
     }
     window.operateEvents = {
         'click .chequear': function(e, value, row, index) {
-            $('#tbl-trabajadores').bootstrapTable('showColumn', 'hota_voto');
-            // Swal.fire({
-            //     title: 'Ingrese la hora',
-            //     html:
-            //     '<input id="swal-input1" class="swal2-input" type="time" required>',
-            //     showCancelButton: true,
-            //     confirmButtonText: 'Aceptar',
-            //     cancelButtonText: 'Cancelar',
-            //     preConfirm: () => {
-            //         const horaVoto = $('#swal-input1').val();
-            //         if (!horaVoto) {
-            //             Swal.showValidationMessage('Por favor ingrese la hora');
-            //         }
-            //         return horaVoto;
-            //     }
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         var data = {
-            //             cedula: row['cedula'],
-            //             voto: 'SI',
-            //             hora_voto: result.value,
-            //         };
-            //         $.ajax({
-            //             type: "POST",
-            //             url: "/trabajador/check",
-            //             data: data,
-            //             headers: {
-            //                 "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
-            //             },
-            //             dataType: "JSON",
-            //             success: function (response) {
-            //                 $('#tbl-trabajadores').bootstrapTable('refresh');
-            //                 Swal.fire({
-            //                     icon: 'success',
-            //                     title: 'HORA REGISTRADA EXITOSAMENTE',
-            //                     showConfirmButton: 'Cerrar'
-            //                 });
-            //             },
-            //         });                    
-            //     }
-            // });
+            $('#tbl-seguimiento').bootstrapTable('showColumn', 'hora_voto');
+            $('#tbl-seguimiento').bootstrapTable('showColumn', 'observaciones');
+            $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'hora_voto', value: '<input class="form-control bg-primary" id="check_hora_voto" type="time" >'});
+            $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'observaciones', value: '<textarea class="form-control bg-primary" id="check_observaciones"></textarea>'});
+            $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'telefono', value: '<input class="form-control bg-dark" id="check_telefono" type="number" value='+row.telefono+' readonly>'});
         },
     };
+
 </script>

@@ -279,6 +279,7 @@ class TrabajadorController extends Controller
         $limit = $request->input('limit', 10);
         $user = Auth::user();
         $query = Vtrabajador::query();
+        $query->select('cedula','nombres','telefono','nucleo','hora_voto','observaciones');
         $query->whereNull('voto');
         if (!$user->hasRole('Admin')) {
             $nucleos = DB::table('users_nucleos')
@@ -296,17 +297,9 @@ class TrabajadorController extends Controller
             $search = $request->search;
             $query->where(function ($query) use ($user,$search) {
                 $query
-                    ->orWhere('nombres', 'Ilike', '%' . $search . '%')
                     ->orWhere('cedula', 'Ilike', '%' . $search . '%')
                     ->orWhere('cedula', 'Ilike', '%' . $search . '%')
-                    ->orWhere('estado', 'Ilike', '%' . $search . '%')
-                    ->orWhere('municipio', 'Ilike', '%' . $search . '%')
-                    ->orWhere('parroquia', 'Ilike', '%' . $search . '%')
                     ->orWhere('nucleo', 'Ilike', '%' . $search . '%')
-                    ->orWhere('tipo_elector', 'Ilike', '%' . $search . '%')
-                    ->orWhere('telefono', 'Ilike', '%' . $search . '%')
-                    ->orWhere('email', 'Ilike', '%' . $search . '%')
-                    ->orWhere('voto', 'Ilike', '%' . $search . '%')
                     ->orWhere('hora_voto', 'Ilike', '%' . $search . '%')
                     ->orWhere('observaciones', 'Ilike', '%' . $search . '%')
                 ;
