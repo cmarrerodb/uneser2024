@@ -135,7 +135,21 @@
                 'hora_voto':$("#check_hora_voto").val(),
                 'observaciones':$("#check_observaciones").val(),
             }
-            console.log(data)
+            $.ajax({
+                type: "POST",
+                url: "/trabajador/check",
+                data: data,
+                headers: {
+                    "X-CSRF-Token": $('meta[name="_token"]').attr("content"),
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    $('#tbl-seguimiento').bootstrapTable('hideColumn', 'hora_voto');
+                    $('#tbl-seguimiento').bootstrapTable('hideColumn', 'observaciones');
+                    $('#tbl-seguimiento').bootstrapTable('refresh');
+                    toastr.success('La hora de votación ha sido registrada exitosamente');
+                },
+            });              
         },
         'click .delete': function(e, value, row, index) {
             $('#tbl-seguimiento').bootstrapTable('refresh');
