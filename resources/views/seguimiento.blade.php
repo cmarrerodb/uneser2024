@@ -99,12 +99,23 @@
 <script>
     function operateFormatter(value, row, index) {
         let btns=[];
-        btn_check = ['<form> @csrf <a class="chequear " href="javascript:void(0)" title="Chequear">',
+        btn_check = ['<form> @csrf <a id="chk'+index+'" class="chequear" href="javascript:void(0)" title="Chequear">',
         '<i class="fas fa-check text-info"></i>',
         '</a></form>  '].join('')
         btns = [
             btn_check
         ].join('');
+        let btn_save = [
+        '<form> @csrf <a id="save' + index + '" class="save d-none" href="javascript:void(0)" title="Guardar">',
+        '<i class="fas fa-save text-success"></i>',
+        '</a></form>'
+    ].join('');
+    let btn_delete = [
+        '<form> @csrf <a id="del' + index + '" class="delete d-none" href="javascript:void(0)" title="Deshacer">',
+        '<i class="fas fa-trash text-danger"></i>',
+        '</a></form>'
+    ].join('');    
+    btns = [btn_check, btn_save, btn_delete].join('');    
         return[btns];
     }
     window.operateEvents = {
@@ -114,7 +125,21 @@
             $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'hora_voto', value: '<input class="form-control bg-primary" id="check_hora_voto" type="time" >'});
             $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'observaciones', value: '<textarea class="form-control bg-primary" id="check_observaciones"></textarea>'});
             $('#tbl-seguimiento').bootstrapTable('updateCell', {index: index, field: 'telefono', value: '<input class="form-control bg-dark" id="check_telefono" type="number" value='+row.telefono+' readonly>'});
+            $('.chequear').addClass('d-none');
+            $('#save' + index).removeClass('d-none');
+            $('#del' + index).removeClass('d-none');
         },
+        'click .save': function(e, value, row, index) {
+            let data = {
+                'cedula':row.cedula,
+                'hora_voto':$("#check_hora_voto").val(),
+                'observaciones':$("#check_observaciones").val(),
+            }
+            console.log(data)
+        },
+        'click .delete': function(e, value, row, index) {
+            $('#tbl-seguimiento').bootstrapTable('refresh');
+        }
     };
 
 </script>
