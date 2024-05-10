@@ -362,7 +362,8 @@ return [
             'submenu' => [
                 [
                     'text' => 'Movilización',
-                    'icon' => 'fas fa-thumbtack',
+                    // 'icon' => 'fas fa-thumbtack',
+                    'icon' => 'fas fa-walking',
                     'submenu' => [
                         [
                             'text' => 'Hora',

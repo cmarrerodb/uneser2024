@@ -46,6 +46,19 @@
 			</div>
 		</div>
 	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTipo">
+			<button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoTipo" aria-expanded="false" aria-controls="colapsoTipo">
+				Movilización por Tipo
+			</button>
+		</h2>
+		<div id="colapsoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacion">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.tipo')
+			</div>
+		</div>
+	</div>
 </div>
 @stop
 @section('css')

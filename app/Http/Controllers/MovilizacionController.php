@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\VtotalMovilizacionHora;
 use App\Models\VnucleosMovilizacionHora;
 use App\Models\VestadosMovilizacionHora;
+use App\Models\VtipoElectorMovilizacionHora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class MovilizacionController extends Controller
@@ -107,7 +108,7 @@ class MovilizacionController extends Controller
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 10);
         $user = Auth::user();
-        $query = VestadosMovilizacionHora::query();
+        $query = VtipoElectorMovilizacionHora::query();
         //MODIFICAR PARA ASIGNAR ESTADOS A USUARIOS
         // if (!$user->hasRole('Admin')) {
         //     $nucleos = DB::table('users_nucleos')
@@ -123,19 +124,19 @@ class MovilizacionController extends Controller
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function ($query) use ($user,$search) {
-                $query->orWhere('estado', 'Ilike', '%' . $search . '%')
+                $query->orWhere('tipo_elector', 'Ilike', '%' . $search . '%')
                 ;
             });
         }
         $total = $query->count();
         if ($request->has('limit')) {
-            $estado_hora = $query->skip($offset)->take($limit)->get();
+            $tipo_hora = $query->skip($offset)->take($limit)->get();
         } else {
-            $estado_hora = $query->get();
+            $tipo_hora = $query->get();
         }
         return response()->json([
             'total' => $total,
-            'rows' => $estado_hora
+            'rows' => $tipo_hora
         ]);
     }    
 
