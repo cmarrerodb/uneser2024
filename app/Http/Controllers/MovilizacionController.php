@@ -7,6 +7,7 @@ use App\Models\VtotalMovilizacionHora;
 use App\Models\VnucleosMovilizacionHora;
 use App\Models\VestadosMovilizacionHora;
 use App\Models\VtipoElectorMovilizacionHora;
+use App\Models\VtipoNucleoMovilizacionHora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class MovilizacionController extends Controller
@@ -137,6 +138,43 @@ class MovilizacionController extends Controller
         return response()->json([
             'total' => $total,
             'rows' => $tipo_hora
+        ]);
+    }    
+
+    public function movilizacion_nucleo_tipo(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $user = Auth::user();
+        $query = VtipoNucleoMovilizacionHora::query();
+        //MODIFICAR PARA ASIGNAR ESTADOS A USUARIOS
+        // if (!$user->hasRole('Admin')) {
+        //     $nucleos = DB::table('users_nucleos')
+        //     ->select('nucleo_id')
+        //     ->where('user_id','=',$user->id)
+        //     ->get();
+        //     $anid = [];
+        //     foreach ($nucleos as $key => $value) {
+        //         array_push($anid, $value->nucleo_id);
+        //     }
+        //     $query->whereIn('nucleo_id',$anid);
+        // }
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($user,$search) {
+                $query->orWhere('nucleo', 'Ilike', '%' . $search . '%');
+                $query->orWhere('tipo_elector', 'Ilike', '%' . $search . '%');
+            });
+        }
+        $total = $query->count();
+        if ($request->has('limit')) {
+            $nucleo_tipo = $query->skip($offset)->take($limit)->get();
+        } else {
+            $nucleo_tipo = $query->get();
+        }
+        return response()->json([
+            'total' => $total,
+            'rows' => $nucleo_tipo
         ]);
     }    
 

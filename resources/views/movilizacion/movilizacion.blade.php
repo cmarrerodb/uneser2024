@@ -1,18 +1,18 @@
 @extends('adminlte::page')
-@section('title','Estadisticas Movilización')
+@section('title','Estadisticas Movilización Hora')
 @section('content_header')
     <meta name="_token" content="{{ csrf_token() }}">
-    <h1 class="m-0 text-dark">Estadisticas Movilización</h1>
+    <h1 class="m-0 text-dark">Estadisticas Movilización Hora</h1>
 @stop
 @section('content')
-<div class="accordion" id="acordeonMovilizacion">
+<div class="accordion" id="acordeonMovilizacionTotal">
 	<div class="accordion-item">
 		<h2 class="accordion-header" id="encabezadoTotal">
-			<button class="accordion-button bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoResumen" aria-expanded="true" aria-controls="colapsoResumen">
+        <button class="accordion-button bg-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoResumen" aria-controls="colapsoResumen">
 				Resúmen Movilización
 			</button>
 		</h2>
-		<div id="colapsoResumen" class="accordion-collapse collapse show" aria-labelledby="encabezadoTotal" data-bs-parent="#acordeonMovilizacion">
+		<div id="colapsoResumen" class="accordion-collapse collapse" aria-labelledby="encabezadoTotal" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 1 -->
                 @include('movilizacion.partials.resumen')
@@ -26,7 +26,7 @@
 				Movilización por Núcleo
 			</button>
 		</h2>
-		<div id="colapsoNucleo" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleo" data-bs-parent="#acordeonMovilizacion">
+		<div id="colapsoNucleo" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleo" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 2 -->
                 @include('movilizacion.partials.nucleos')
@@ -39,7 +39,7 @@
 				Movilización por Estado
 			</button>
 		</h2>
-		<div id="colapsoEstado" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacion">
+		<div id="colapsoEstado" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
                 @include('movilizacion.partials.estados')
@@ -52,13 +52,166 @@
 				Movilización por Tipo
 			</button>
 		</h2>
-		<div id="colapsoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacion">
+		<div id="colapsoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
                 @include('movilizacion.partials.tipo')
 			</div>
 		</div>
 	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleoTipo">
+			<button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoTipo" aria-expanded="false" aria-controls="colapsoNucleoTipo">
+				Movilización por Nucleo y Tipo
+			</button>
+		</h2>
+		<div id="colapsoNucleoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacionTotal">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.nucleo_tipo')
+			</div>
+		</div>
+	</div>
+    <hr class="mt-3 mb3"/>
+    <div class="accordion" id="acordeonMovilizacionTrabajador">
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTotalTrabajador">
+			<button class="accordion-button bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoResumenTrabajador" aria-expanded="false" aria-controls="colapsoResumenTrabajador">
+				Resúmen Movilización Trabajadores
+			</button>
+		</h2>
+		<div id="colapsoResumenTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoTotalTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 1 -->
+                @include('movilizacion.partials.resumen')
+
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleoTrabajador">
+			<button class="accordion-button collapsed bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoTrabajador" aria-expanded="false" aria-controls="colapsoNucleoTrabajador">
+				Movilización Trabajadores por Núcleo 
+			</button>
+		</h2>
+		<div id="colapsoNucleoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 2 -->
+                @include('movilizacion.partials.nucleos')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoEstadoTrabajador">
+			<button class="accordion-button collapsed bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoEstadoTrabajador" aria-expanded="false" aria-controls="colapsoEstadoTrabajador">
+				Movilización Trabajadores por Estado
+			</button>
+		</h2>
+		<div id="colapsoEstadoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.estados')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTipoTrabajador">
+			<button class="accordion-button collapsed bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#Trabajador" aria-expanded="false" aria-controls="Trabajador">
+				Movilización Trabajadores por Tipo
+			</button>
+		</h2>
+		<div id="Trabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.tipo')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleoTipoTrabajador">
+			<button class="accordion-button collapsed bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoTipoTrabajador" aria-expanded="false" aria-controls="colapsoNucleoTipoTrabajador">
+				Movilización Trabajadores por Nucleo y Tipo
+			</button>
+		</h2>
+		<div id="colapsoNucleoTipoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTipoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.nucleo_tipo')
+			</div>
+		</div>
+	</div>
+    <hr class="mt-3 mb3"/>
+    <div class="accordion" id="acordeonMovilizacionEstudiante">
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTotalEstudiante">
+			<button class="accordion-button bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoResumenEstudiante" aria-expanded="false" aria-controls="colapsoResumenEstudiante">
+				Resúmen Movilización Estudiantes
+			</button>
+		</h2>
+		<div id="colapsoResumenEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoTotalEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
+			<div class="accordion-body">
+				<!-- Seccion 1 -->
+                @include('movilizacion.partials.resumen')
+
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleoEstudiante">
+			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoEstudiante" aria-expanded="false" aria-controls="colapsoNucleoEstudiante">
+				Movilización Estudiantes por Núcleo 
+			</button>
+		</h2>
+		<div id="colapsoNucleoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
+			<div class="accordion-body">
+				<!-- Seccion 2 -->
+                @include('movilizacion.partials.nucleos')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoEstadoEstudiante">
+			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoEstadoEstudiante" aria-expanded="false" aria-controls="colapsoEstadoEstudiante">
+				Movilización Estudiantes por Estado
+			</button>
+		</h2>
+		<div id="colapsoEstadoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.estados')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTipoEstudiante">
+			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#Estudiante" aria-expanded="false" aria-controls="Estudiante">
+				Movilización Estudiantes por Tipo
+			</button>
+		</h2>
+		<div id="Estudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.tipo')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleoTipoEstudiante">
+			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoTipoEstudiante" aria-expanded="false" aria-controls="colapsoNucleoTipoEstudiante">
+				Movilización Estudiantes por Nucleo y Tipo
+			</button>
+		</h2>
+		<div id="colapsoNucleoTipoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTipoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.nucleo_tipo')
+			</div>
+		</div>
+	</div>
+</div>
+
 </div>
 @stop
 @section('css')
