@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('trabajador/actualizar_trabajador', [TrabajadorController::class, 'actualizar_trabajador'])->name('workers.update.worker');
     Route::get('estadisticas_movilizacion', [MovilizacionController::class, 'index'])->name('statistic.movilization');
     Route::get('/movilizacion_hora',[MovilizacionController::class,'movilizacion_hora'])->name('movilizacion_hora');
+    Route::get('movilizacion_nucleo',[MovilizacionController::class,'movilizacion_nucleo'])->name('movilizacion_nucleo');
     // Route::get('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
     // Route::resource('trabajadores', TrabajadorController::class)->middleware('can:admin.workers.index')->names('admin.workers');
 });

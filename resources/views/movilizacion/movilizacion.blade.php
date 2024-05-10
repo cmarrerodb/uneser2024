@@ -5,32 +5,48 @@
     <h1 class="m-0 text-dark">Estadisticas Movilización</h1>
 @stop
 @section('content')
-    <div class="table-container">
-        <table 
-            id="tbl-movilizacion-todo" 
-            class="table table-hover" 
-            data-toolbar="#toolbar"
-            data-toggle="table" 
-            data-url="{{route('movilizacion_hora')}}" 
-            data-show-export="true" 
-            data-export-data-type="all" 
-            data-export-types="['csv', 'json', 'excel']" 
-            data-show-fullscreen="true" 
-            data-show-print="true" 
-            data-locale="es-VE"
-            data-search-accent-neutralise="true"
-            data-show-refresh="true"
-        >
-            <thead>
-                <tr>
-                    <th data-field="hora" >HORA</th>
-                    <th data-field="cant">CANTIDAD</th>
-                    <th data-field="acumulado">ACUMULADO</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+<div class="accordion" id="acordeonMovilizacion">
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoTotal">
+			<button class="accordion-button bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoResumen" aria-expanded="true" aria-controls="colapsoResumen">
+				Resúmen Movilización
+			</button>
+		</h2>
+		<div id="colapsoResumen" class="accordion-collapse collapse show" aria-labelledby="encabezadoTotal" data-bs-parent="#acordeonMovilizacion">
+			<div class="accordion-body">
+				<!-- Seccion 1 -->
+                @include('movilizacion.partials.resumen')
+
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoNucleo">
+			<button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleo" aria-expanded="false" aria-controls="colapsoNucleo">
+				Movilización por Núcleo
+			</button>
+		</h2>
+		<div id="colapsoNucleo" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleo" data-bs-parent="#acordeonMovilizacion">
+			<div class="accordion-body">
+				<!-- Seccion 2 -->
+                @include('movilizacion.partials.nucleos')
+			</div>
+		</div>
+	</div>
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoEstado">
+			<button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoEstado" aria-expanded="false" aria-controls="colapsoEstado">
+				Movilización por Estado
+			</button>
+		</h2>
+		<div id="colapsoEstado" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacion">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                <h1>ESTADO</h1>
+			</div>
+		</div>
+	</div>
+</div>
 @stop
 @section('css')
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
