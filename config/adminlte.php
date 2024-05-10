@@ -355,31 +355,26 @@ return [
                 ],                
             ],
         ],        
-        /////////
         [
-            'text'    => 'Gráficos',
-            'icon'    => 'fas fa-chart-line',
-            'can'     => 'admin.graphics.list',
-            'submenu' => [
-                [
-                    'text' => 'Movilización Hora',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Movilización Media Hora',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Cumplimiento Gabinete',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        [
-            'text'    => 'Reportes',
+            'text'    => 'Estadísticas',
             'icon'    => 'fas fa-window-restore',
             'can'     => 'admin.reports.list',
             'submenu' => [
+                [
+                    'text' => 'Movilización',
+                    'icon' => 'fas fa-thumbtack',
+                    'submenu' => [
+                        [
+                            'text' => 'Hora',
+                            'url' => 'estadisticas_movilizacion',
+                        ],
+                        [
+                            'text' => 'Media hora',
+                            'url' => '#',
+                        ],
+                    ],
+                ],
+
                 [
                     'text' => 'Cumplimiento',
                     'icon' => 'fas fa-thumbtack',
@@ -433,20 +428,6 @@ return [
                     ],
                 ],
                 [
-                    'text' => 'Movilización',
-                    'icon' => 'fas fa-thumbtack',
-                    'submenu' => [
-                        [
-                            'text' => 'Hora',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'Media hora',
-                            'url' => '#',
-                        ],
-                    ],
-                ],
-                [
                     'text' => 'Trabajadores',
                     'icon' => 'fas fa-thumbtack',
                     'submenu' => [
@@ -459,6 +440,26 @@ return [
                             'url' => '#',
                         ],
                     ],
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Gráficos',
+            'icon'    => 'fas fa-chart-line',
+            'can'     => 'admin.graphics.list',
+            'submenu' => [
+                [
+                    'text' => 'Movilización Hora',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Movilización Media Hora',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Cumplimiento Gabinete',
+                    'url'  => '#',
                 ],
             ],
         ],

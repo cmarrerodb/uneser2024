@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\AuxiliarController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\MovilizacionController;
 
 
 /*
@@ -41,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('trabajador/estado_municipios', [AuxiliarController::class, 'estado_municipios'])->name('auxiliars.states.municipality');
     Route::post('trabajador/municipio_parroquias', [AuxiliarController::class, 'municipio_parroquias'])->name('auxiliars.municipality.parish');
     Route::post('trabajador/actualizar_trabajador', [TrabajadorController::class, 'actualizar_trabajador'])->name('workers.update.worker');
+    Route::get('estadisticas_movilizacion', [MovilizacionController::class, 'index'])->name('statistic.movilization');
+    Route::get('/movilizacion_hora',[MovilizacionController::class,'movilizacion_hora'])->name('movilizacion_hora');
     // Route::get('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
     // Route::resource('trabajadores', TrabajadorController::class)->middleware('can:admin.workers.index')->names('admin.workers');
 });
