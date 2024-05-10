@@ -8,12 +8,12 @@
             </div>
         </div>
         <table 
-            id="tbl-nucleos" 
+            id="tbl-estados" 
             class="table table-hover" 
             data-toolbar="#toolbar"
             data-toggle="table" 
             data-show-columns="true" 
-            data-url="{{route('movilizacion_nucleo')}}" 
+            data-url="{{route('movilizacion_estado')}}" 
             data-side-pagination="server" 
             data-pagination="true" 
             data-page-list="[24, 48, 72,  96, 'All']" 
@@ -37,7 +37,7 @@
                     <th colspan="4">MOVILIZACIÓN POR NÚCLEO</th>
                 </tr>
                 <tr>
-                    <th data-field="nucleo" data-filter-control="select" data-sortable="true">NÚCLEO</th>
+                    <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
                     <th data-field="hora" data-sortable="true">HORA</th>
                     <th data-field="cant" data-sortable="true">CANT.</th>
                     <th data-field="acumulado" data-sortable="true">ACUMULADO</th>

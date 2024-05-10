@@ -42,7 +42,7 @@
 		<div id="colapsoEstado" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacion">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                <h1>ESTADO</h1>
+                @include('movilizacion.partials.estados')
 			</div>
 		</div>
 	</div>
