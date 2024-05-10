@@ -73,7 +73,7 @@
     <link href="{{ URL::asset('assets/libs/tui-chart/tui-chart.min.css') }}" rel="stylesheet">
 @stop
 @section('js')
-<script src="{{ asset('/assets/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery-3.5.1.js') }}"></script>
     <script src="{{ asset('/assets/libs/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/libs/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -97,26 +97,22 @@
     <script src="{{ asset('/assets/libs/tui-chart/tui-chart.min.js') }}"></script>
 @stop
 <script>
+    // $(document).ready(function() {
+    //     $('.subir').click(function(){
+    //              $("html, body").animate({ scrollTop: 0 }, 600);
+    //         });
+    //     $(".bajar").click(function() {
+    //         // var tableHeight = $("#tbl-seguimiento")[0].scrollHeight;
+    //         // $("html, body").animate({ scrollTop: tableHeight }, 600);
+    //     });          
+    // });
     function operateFormatter(value, row, index) {
         let btns=[];
-        btn_check = ['<form> @csrf <a id="chk'+index+'" class="chequear" href="javascript:void(0)" title="Chequear">',
-        '<i class="fas fa-check text-info"></i>',
-        '</a></form>  '].join('')
-        btns = [
-            btn_check
-        ].join('');
-        let btn_save = [
-        '<form> @csrf <a id="save' + index + '" class="save d-none" href="javascript:void(0)" title="Guardar">',
-        '<i class="fas fa-save text-success"></i>',
-        '</a></form>'
-    ].join('');
-    let btn_delete = [
-        '<form> @csrf <a id="del' + index + '" class="delete d-none" href="javascript:void(0)" title="Deshacer">',
-        '<i class="fas fa-trash text-danger"></i>',
-        '</a></form>'
-    ].join('');    
-    btns = [btn_check, btn_save, btn_delete].join('');    
-        return[btns];
+        btn_check = '<form> @csrf <button id="chk'+index+'" class="form-control btn btn-sm btn-primary chequear" title="Chequear"><i class="fas fa-check"></i></button></form>';
+        btn_save = '<form> @csrf <button id="save'+index+'" class="form-control btn btn-sm btn-success save d-none" title="Guardar cambios"><i class="fas fa-save"></i></button></form>';
+        btn_delete = '<form> @csrf <button id="del'+index+'" class="form-control btn btn-sm btn-danger delete d-none" title="Revertir cambios"><i class="fas fa-times"></i></button></form>';        
+        btns = [btn_check, btn_save, btn_delete].join('');    
+            return[btns];
     }
     window.operateEvents = {
         'click .chequear': function(e, value, row, index) {
@@ -152,8 +148,25 @@
             });              
         },
         'click .delete': function(e, value, row, index) {
+            $('#tbl-seguimiento').bootstrapTable('hideColumn', 'hora_voto');
+            $('#tbl-seguimiento').bootstrapTable('hideColumn', 'observaciones');
             $('#tbl-seguimiento').bootstrapTable('refresh');
         }
     };
-
+    document.addEventListener('DOMContentLoaded', function() {
+        var elementosBajar = document.querySelectorAll('.bajar');
+        elementosBajar.forEach(function(elemento) {
+            elemento.addEventListener('click', function() {
+                var tableHeight = $("#tbl-seguimiento")[0].scrollHeight;
+                $("html, body").animate({ scrollTop: tableHeight }, 600);
+            });
+        });
+        var elementosSubir = document.querySelectorAll('.subir');
+        elementosSubir.forEach(function(elemento) {
+            elemento.addEventListener('click', function() {
+                $("html, body").animate({ scrollTop: 0 }, 600);
+                
+            });
+        });    
+    });    
 </script>
