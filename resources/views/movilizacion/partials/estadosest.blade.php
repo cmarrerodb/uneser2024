@@ -8,12 +8,12 @@
             </div>
         </div>
         <table 
-            id="tbl-estados" 
+            id="tbl-estados-est" 
             class="table table-hover" 
             data-toolbar="#toolbar"
             data-toggle="table" 
             data-show-columns="true" 
-            data-url="{{route('movilizacion_estado')}}" 
+            data-url="{{route('movilizacion_estado_est')}}" 
             data-side-pagination="server" 
             data-pagination="true" 
             data-page-list="[24, 48, 72,  96, 'All']" 
@@ -34,7 +34,7 @@
         >
             <thead>
                 <tr>
-                    <th colspan="4">MOVILIZACIÓN POR ESTADO</th>
+                    <th colspan="4">MOVILIZACIÓN ESTUDIANTES POR ESTADO</th>
                 </tr>
                 <tr>
                     <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>

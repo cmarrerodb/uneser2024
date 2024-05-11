@@ -83,7 +83,7 @@
 		<div id="colapsoResumenTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoTotalTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
 			<div class="accordion-body">
 				<!-- Seccion 1 -->
-                @include('movilizacion.partials.resumen')
+                @include('movilizacion.partials.resumentra')
 
 			</div>
 		</div>
@@ -98,7 +98,7 @@
 		<div id="colapsoNucleoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
 			<div class="accordion-body">
 				<!-- Seccion 2 -->
-                @include('movilizacion.partials.nucleos')
+                @include('movilizacion.partials.nucleostra')
 			</div>
 		</div>
 	</div>
@@ -111,7 +111,7 @@
 		<div id="colapsoEstadoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                @include('movilizacion.partials.estados')
+                @include('movilizacion.partials.estadostra')
 			</div>
 		</div>
 	</div>
@@ -137,7 +137,7 @@
 		<div id="colapsoNucleoTipoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTipoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                @include('movilizacion.partials.nucleo_tipo')
+                @include('movilizacion.partials.nucleo_tipotra')
 			</div>
 		</div>
 	</div>
@@ -152,7 +152,7 @@
 		<div id="colapsoResumenEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoTotalEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
 			<div class="accordion-body">
 				<!-- Seccion 1 -->
-                @include('movilizacion.partials.resumen')
+                @include('movilizacion.partials.resumenest')
 
 			</div>
 		</div>
@@ -167,7 +167,7 @@
 		<div id="colapsoNucleoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
 			<div class="accordion-body">
 				<!-- Seccion 2 -->
-                @include('movilizacion.partials.nucleos')
+                @include('movilizacion.partials.nucleosest')
 			</div>
 		</div>
 	</div>
@@ -180,37 +180,11 @@
 		<div id="colapsoEstadoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                @include('movilizacion.partials.estados')
+                @include('movilizacion.partials.estadosest')
 			</div>
 		</div>
 	</div>
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="encabezadoTipoEstudiante">
-			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#Estudiante" aria-expanded="false" aria-controls="Estudiante">
-				Movilización Estudiantes por Tipo
-			</button>
-		</h2>
-		<div id="Estudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
-			<div class="accordion-body">
-				<!-- Seccion 3 -->
-                @include('movilizacion.partials.tipo')
-			</div>
-		</div>
-	</div>
-	<div class="accordion-item">
-		<h2 class="accordion-header" id="encabezadoNucleoTipoEstudiante">
-			<button class="accordion-button collapsed bg-success text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoNucleoTipoEstudiante" aria-expanded="false" aria-controls="colapsoNucleoTipoEstudiante">
-				Movilización Estudiantes por Nucleo y Tipo
-			</button>
-		</h2>
-		<div id="colapsoNucleoTipoEstudiante" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleoTipoEstudiante" data-bs-parent="#acordeonMovilizacionEstudiante">
-			<div class="accordion-body">
-				<!-- Seccion 3 -->
-                @include('movilizacion.partials.nucleo_tipo')
-			</div>
-		</div>
-	</div>
-</div>
+**</div>
 
 </div>
 @stop

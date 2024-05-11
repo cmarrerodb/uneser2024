@@ -8,12 +8,12 @@
             </div>
         </div>
         <table 
-            id="tbl-estados" 
+            id="tbl-nucleos-tra" 
             class="table table-hover" 
             data-toolbar="#toolbar"
             data-toggle="table" 
             data-show-columns="true" 
-            data-url="{{route('movilizacion_estado')}}" 
+            data-url="{{route('movilizacion_nucleo_tra')}}" 
             data-side-pagination="server" 
             data-pagination="true" 
             data-page-list="[24, 48, 72,  96, 'All']" 
@@ -34,10 +34,10 @@
         >
             <thead>
                 <tr>
-                    <th colspan="4">MOVILIZACIÓN POR ESTADO</th>
+                    <th colspan="4">MOVILIZACIÓN TRABAJADORES POR NÚCLEO</th>
                 </tr>
                 <tr>
-                    <th data-field="estado" data-filter-control="select" data-sortable="true">ESTADO</th>
+                    <th data-field="nucleo" data-filter-control="select" data-sortable="true">NÚCLEO</th>
                     <th data-field="hora" data-sortable="true">HORA</th>
                     <th data-field="cant" data-sortable="true">CANT.</th>
                     <th data-field="acumulado" data-sortable="true">ACUMULADO</th>
