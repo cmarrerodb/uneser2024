@@ -11,10 +11,13 @@ use App\Models\VestadosMovilizacionHora;
 use App\Models\VestadosMovilizacionHoraTra;
 use App\Models\VestadosMovilizacionHoraEst;
 use App\Models\VtipoElectorMovilizacionHora;
+use App\Models\VtipoElectorMovilizacionHoraTra;
 use App\Models\VtipoNucleoMovilizacionHora;
 use App\Models\VtipoNucleoMovilizacionHoraTra;
 use App\Models\VnucleosMovilizacionHoraEst;
 use App\Models\VnucleosMovilizacionHoraTra;
+use App\Models\VtipoEstadosMovilizacionHora;
+use App\Models\VtipoEstadosMovilizacionHoraTra;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class MovilizacionController extends Controller
@@ -146,7 +149,6 @@ class MovilizacionController extends Controller
             'rows' => $tipo_hora
         ]);
     }    
-
     public function movilizacion_nucleo_tipo(Request $request)
     {
         $offset = $request->input('offset', 0);
@@ -397,4 +399,114 @@ class MovilizacionController extends Controller
             'rows' => $nucleo_tipo
         ]);
     }  
+    public function movilizacion_tipo_tra(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $user = Auth::user();
+        $query = VtipoElectorMovilizacionHoraTra::query();
+        //MODIFICAR PARA ASIGNAR ESTADOS A USUARIOS
+        // if (!$user->hasRole('Admin')) {
+        //     $nucleos = DB::table('users_nucleos')
+        //     ->select('nucleo_id')
+        //     ->where('user_id','=',$user->id)
+        //     ->get();
+        //     $anid = [];
+        //     foreach ($nucleos as $key => $value) {
+        //         array_push($anid, $value->nucleo_id);
+        //     }
+        //     $query->whereIn('nucleo_id',$anid);
+        // }
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($user,$search) {
+                $query->orWhere('tipo_elector', 'Ilike', '%' . $search . '%')
+                ;
+            });
+        }
+        $total = $query->count();
+        if ($request->has('limit')) {
+            $tipo_hora = $query->skip($offset)->take($limit)->get();
+        } else {
+            $tipo_hora = $query->get();
+        }
+        return response()->json([
+            'total' => $total,
+            'rows' => $tipo_hora
+        ]);
+    }
+    public function movilizacion_tipo_estado(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $user = Auth::user();
+        $query = VtipoEstadosMovilizacionHora::query();
+        //MODIFICAR PARA ASIGNAR ESTADOS A USUARIOS
+        // if (!$user->hasRole('Admin')) {
+        //     $nucleos = DB::table('users_nucleos')
+        //     ->select('nucleo_id')
+        //     ->where('user_id','=',$user->id)
+        //     ->get();
+        //     $anid = [];
+        //     foreach ($nucleos as $key => $value) {
+        //         array_push($anid, $value->nucleo_id);
+        //     }
+        //     $query->whereIn('nucleo_id',$anid);
+        // }
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($user,$search) {
+                $query->orWhere('estado', 'Ilike', '%' . $search . '%');
+                $query->orWhere('tipo_elector', 'Ilike', '%' . $search . '%');
+            });
+        }
+        $total = $query->count();
+        if ($request->has('limit')) {
+            $tipo_hora = $query->skip($offset)->take($limit)->get();
+        } else {
+            $tipo_hora = $query->get();
+        }
+        info($tipo_hora);
+        return response()->json([
+            'total' => $total,
+            'rows' => $tipo_hora
+        ]);
+    }        
+    public function movilizacion_tipo_estado_tra(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $user = Auth::user();
+        $query = VtipoEstadosMovilizacionHoraTra::query();
+        //MODIFICAR PARA ASIGNAR ESTADOS A USUARIOS
+        // if (!$user->hasRole('Admin')) {
+        //     $nucleos = DB::table('users_nucleos')
+        //     ->select('nucleo_id')
+        //     ->where('user_id','=',$user->id)
+        //     ->get();
+        //     $anid = [];
+        //     foreach ($nucleos as $key => $value) {
+        //         array_push($anid, $value->nucleo_id);
+        //     }
+        //     $query->whereIn('nucleo_id',$anid);
+        // }
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($query) use ($user,$search) {
+                $query->orWhere('estado', 'Ilike', '%' . $search . '%');
+                $query->orWhere('tipo_elector', 'Ilike', '%' . $search . '%');
+            });
+        }
+        $total = $query->count();
+        if ($request->has('limit')) {
+            $tipo_hora = $query->skip($offset)->take($limit)->get();
+        } else {
+            $tipo_hora = $query->get();
+        }
+        return response()->json([
+            'total' => $total,
+            'rows' => $tipo_hora
+        ]);
+    }        
+
 }

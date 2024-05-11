@@ -72,6 +72,21 @@
 			</div>
 		</div>
 	</div>
+	<!-- ////////////////////// -->
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoEstadoTipo">
+			<button class="accordion-button collapsed bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoEstadoTipo" aria-expanded="false" aria-controls="colapsoEstadoTipo">
+				Movilización por Estado y Tipo
+			</button>
+		</h2>
+		<div id="colapsoEstadoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoTipo" data-bs-parent="#acordeonMovilizacionTotal">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.tipo_estado')
+			</div>
+		</div>
+	</div>
+	<!-- ////////////////////// -->
     <hr class="mt-3 mb3"/>
     <div class="accordion" id="acordeonMovilizacionTrabajador">
 	<div class="accordion-item">
@@ -141,6 +156,21 @@
 			</div>
 		</div>
 	</div>
+	<!-- ///////////// -->
+	<div class="accordion-item">
+		<h2 class="accordion-header" id="encabezadoEstadoTipoTrabajador">
+			<button class="accordion-button collapsed bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#colapsoEstadoTipoTrabajador" aria-expanded="false" aria-controls="colapsoEstadoTipoTrabajador">
+				Movilización Trabajadores por Estado y Tipo
+			</button>
+		</h2>
+		<div id="colapsoEstadoTipoTrabajador" class="accordion-collapse collapse" aria-labelledby="encabezadoEstadoTipoTrabajador" data-bs-parent="#acordeonMovilizacionTrabajador">
+			<div class="accordion-body">
+				<!-- Seccion 3 -->
+                @include('movilizacion.partials.tipo_estadotra')
+			</div>
+		</div>
+	</div>	
+	<!-- ///////////// -->
     <hr class="mt-3 mb3"/>
     <div class="accordion" id="acordeonMovilizacionEstudiante">
 	<div class="accordion-item">

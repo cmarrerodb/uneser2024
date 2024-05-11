@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('movilizacion_nucleo',[MovilizacionController::class,'movilizacion_nucleo'])->name('movilizacion_nucleo');
     Route::get('movilizacion_estado',[MovilizacionController::class,'movilizacion_estado'])->name('movilizacion_estado');
     Route::get('movilizacion_tipo',[MovilizacionController::class,'movilizacion_tipo'])->name('movilizacion_tipo');
+    Route::get('movilizacion_tipo_tra',[MovilizacionController::class,'movilizacion_tipo_tra'])->name('movilizacion_tipo_tra');
     Route::get('movilizacion_nucleo_tipo',[MovilizacionController::class,'movilizacion_nucleo_tipo'])->name('movilizacion_nucleo_tipo');
     Route::get('movilizacion_nucleo_tipo_tra',[MovilizacionController::class,'movilizacion_nucleo_tipo_tra'])->name('movilizacion_nucleo_tipo_tra');
     Route::get('movilizacion_hora_tra',[MovilizacionController::class,'movilizacion_hora_tra'])->name('movilizacion_hora_tra');
@@ -55,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('movilizacion_nucleo_est',[MovilizacionController::class,'movilizacion_nucleo_est'])->name('movilizacion_nucleo_est');
     Route::get('movilizacion_estado_tra',[MovilizacionController::class,'movilizacion_estado_tra'])->name('movilizacion_estado_tra');
     Route::get('movilizacion_estado_est',[MovilizacionController::class,'movilizacion_estado_est'])->name('movilizacion_estado_est');
+    Route::get('movilizacion_tipo_estado',[MovilizacionController::class,'movilizacion_tipo_estado'])->name('movilizacion_tipo_estado');
+    Route::get('movilizacion_tipo_estado_tra',[MovilizacionController::class,'movilizacion_tipo_estado_tra'])->name('movilizacion_tipo_estado_tra');
     // Route::get('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
     // Route::resource('trabajadores', TrabajadorController::class)->middleware('can:admin.workers.index')->names('admin.workers');
 });

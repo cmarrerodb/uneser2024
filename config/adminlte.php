@@ -368,6 +368,7 @@ return [
                         [
                             'text' => 'Hora',
                             'url' => 'estadisticas_movilizacion',
+                            'icon' => 'fas fa-clock'
                         ],
                         [
                             'text' => 'Media hora',
