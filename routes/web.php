@@ -6,6 +6,7 @@ use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\AuxiliarController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\MovilizacionController;
+use App\Http\Controllers\GraficosController;
 
 
 /*
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('trabajador/municipio_parroquias', [AuxiliarController::class, 'municipio_parroquias'])->name('auxiliars.municipality.parish');
     Route::post('trabajador/actualizar_trabajador', [TrabajadorController::class, 'actualizar_trabajador'])->name('workers.update.worker');
     Route::get('estadisticas_movilizacion', [MovilizacionController::class, 'index'])->name('statistic.movilization');
+
     Route::get('/movilizacion_hora',[MovilizacionController::class,'movilizacion_hora'])->name('movilizacion_hora');
     Route::get('movilizacion_nucleo',[MovilizacionController::class,'movilizacion_nucleo'])->name('movilizacion_nucleo');
     Route::get('movilizacion_estado',[MovilizacionController::class,'movilizacion_estado'])->name('movilizacion_estado');
@@ -58,6 +60,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('movilizacion_estado_est',[MovilizacionController::class,'movilizacion_estado_est'])->name('movilizacion_estado_est');
     Route::get('movilizacion_tipo_estado',[MovilizacionController::class,'movilizacion_tipo_estado'])->name('movilizacion_tipo_estado');
     Route::get('movilizacion_tipo_estado_tra',[MovilizacionController::class,'movilizacion_tipo_estado_tra'])->name('movilizacion_tipo_estado_tra');
+    
+    Route::get('graficos_movilizacion', [GraficosController::class, 'index'])->name('graph.movilization');
+    Route::get('/grafico_hora',[GraficosController::class,'grafico_hora'])->name('grafico_hora');
+    // Route::get('grafico_nucleo',[GraficoController::class,'grafico_nucleo'])->name('grafico_nucleo');
+    // Route::get('grafico_estado',[GraficoController::class,'grafico_estado'])->name('grafico_estado');
+    // Route::get('grafico_tipo',[GraficoController::class,'grafico_tipo'])->name('grafico_tipo');
+    // Route::get('grafico_tipo_tra',[GraficoController::class,'grafico_tipo_tra'])->name('grafico_tipo_tra');
+    // Route::get('grafico_nucleo_tipo',[GraficoController::class,'grafico_nucleo_tipo'])->name('grafico_nucleo_tipo');
+    // Route::get('grafico_nucleo_tipo_tra',[GraficoController::class,'grafico_nucleo_tipo_tra'])->name('grafico_nucleo_tipo_tra');
+    // Route::get('grafico_hora_tra',[GraficoController::class,'grafico_hora_tra'])->name('grafico_hora_tra');
+    // Route::get('grafico_hora_est',[GraficoController::class,'grafico_hora_est'])->name('grafico_hora_est');
+    // Route::get('grafico_nucleo_tra',[GraficoController::class,'grafico_nucleo_tra'])->name('grafico_nucleo_tra');
+    // Route::get('grafico_nucleo_est',[GraficoController::class,'grafico_nucleo_est'])->name('grafico_nucleo_est');
+    // Route::get('grafico_estado_tra',[GraficoController::class,'grafico_estado_tra'])->name('grafico_estado_tra');
+    // Route::get('grafico_estado_est',[GraficoController::class,'grafico_estado_est'])->name('grafico_estado_est');
+    // Route::get('grafico_tipo_estado',[GraficoController::class,'grafico_tipo_estado'])->name('grafico_tipo_estado');
+    // Route::get('grafico_tipo_estado_tra',[GraficoController::class,'grafico_tipo_estado_tra'])->name('grafico_tipo_estado_tra');
     // Route::get('permisos/search', [PermissionsController::class, 'search'])->name('admin.permissions.search');    
     // Route::resource('trabajadores', TrabajadorController::class)->middleware('can:admin.workers.index')->names('admin.workers');
 });
