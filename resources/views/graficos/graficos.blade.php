@@ -16,15 +16,6 @@
 			<div class="accordion-body">
 				<!-- Seccion 1 -->
                 @include('graficos.partials.resumen')
-{{--                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12" style="margin: 0 auto;">
-                            <div class="card-body">
-               
-                                <div id="chart" dir="ltr" style="display:flex;justify-content:center;">
-                                </div>
-                            </div>
-                    </div>
-                </div>  --}}
 			</div>
 		</div>
 	</div>
@@ -268,61 +259,46 @@
     {{--<script src="{{ asset('/assets/libs/tui-chart/tui-chart.min.js') }}"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/@toast-ui/chart"></script>
 <<script>
-    document.addEventListener('DOMContentLoaded', function() {
 
-        const el = document.getElementById('chart');
-      const data = {
-        categories: [
-          '04:00:00',
-          '06:00:00',
-          '07:00:00',
-          '08:00:00',
-          '09:00:00',
-          '10:00:00',
-          '11:00:00',
-          '13:00:00',
-          '14:00:00',
-          '15:00:00',
-          '16:00:00',
-          '17:00:00',
-          '18:00:00',
-        ],
+document.addEventListener('DOMContentLoaded', function() {
+    var movilizacion = @json($movilizacion);
+    const el = document.getElementById('chart');
+    const categories = movilizacion.map(item => item.hora);
+    const cantidadData = movilizacion.map(item => item.cant);
+    const acumuladoData = movilizacion.map(item => parseInt(item.acumulado));
+    const data = {
+        categories: categories,
         series: [
-          {
-            name: 'Cantidad',
-            data: [1, 2260, 2278, 2319, 2237, 2303, 2334, 2170, 2264, 2302, 2282, 2245, 2243],
-          },
-          {
-            name: 'Acumulado',
-            data: [1, 2261, 4539, 6858, 9095, 11392, 13732, 15902, 18166, 20468, 22750, 24995, 27228],
-          },
+            {
+                name: 'Cantidad',
+                data: cantidadData,
+            },
+            {
+                name: 'Acumulado',
+                data: acumuladoData,
+            },
         ],
-      };
-      const options = {
+    };
+
+    const options = {
         chart: { title: 'Movilización por Hora y Acumulada', width: 800, height: 500 },
         xAxis: {
-          title: 'Month',
+            title: 'Hora',
         },
         yAxis: {
-          title: 'Amount',
+            title: 'Cantidad',
         },
         tooltip: {
-          formatter: (value) => `${value} `,
+            grouped: true,
         },
         legend: {
-          align: 'bottom',
+            align: 'bottom',
         },
-      };
+    };
 
-      
-      console.log("data:",data)
-      console.log("options:",options)
-    //   var chart = new toastui.Chart({
-    //       el: container,
-    //       data: data,
-    //       options: options
-    //     });
-        const chart = toastui.Chart.lineChart({ el, data, options });
-    });
+    const chart = toastui.Chart.lineChart({ el, data, options });
+});
+
+
 </script>
 @stop

@@ -25,7 +25,6 @@ class GraficosController extends Controller
 {
     public function index() {
         $movilizacion = VtotalMovilizacionHora::all();
-        info($movilizacion);
         return view('graficos.graficos',compact('movilizacion'));
     }
 
