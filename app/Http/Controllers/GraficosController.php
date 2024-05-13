@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\VtotalMovilizacionHora;
+use App\Models\VacumuladoEstado;
+use App\Models\VacumuladoNucleo;
+use App\Models\VacumuladoTipo;
 use App\Models\VtotalMovilizacionHoraTra;
 use App\Models\VtotalMovilizacionHoraEst;
 use App\Models\VnucleosMovilizacionHora;
@@ -25,7 +28,11 @@ class GraficosController extends Controller
 {
     public function index() {
         $movilizacion = VtotalMovilizacionHora::all();
-        return view('graficos.graficos',compact('movilizacion'));
+        $nucleos = VacumuladoNucleo::all();
+        $estados = VacumuladoEstado::all();
+        $tipos = VacumuladoTipo::all();
+
+        return view('graficos.graficos',compact('movilizacion','nucleos','estados','tipos'));
     }
 
     

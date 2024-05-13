@@ -28,7 +28,9 @@
 		<div id="colapsoNucleo" class="accordion-collapse collapse" aria-labelledby="encabezadoNucleo" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 2 -->
-                {{--@include('graficos.partials.nucleos')--}}
+				<div class="accordion-body">
+                @include('graficos.partials.nucleos')
+			</div>
 			</div>
 		</div>
 	</div>
@@ -41,7 +43,7 @@
 		<div id="colapsoEstado" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                {{--@include('graficos.partials.estados')--}}
+                @include('graficos.partials.estados')
 			</div>
 		</div>
 	</div>
@@ -54,7 +56,7 @@
 		<div id="colapsoTipo" class="accordion-collapse collapse" aria-labelledby="encabezadoEstado" data-bs-parent="#acordeonMovilizacionTotal">
 			<div class="accordion-body">
 				<!-- Seccion 3 -->
-                {{--@include('graficos.partials.tipo')--}}
+                @include('graficos.partials.tipos')
 			</div>
 		</div>
 	</div>
@@ -229,8 +231,6 @@
     <link href="{{ asset('assets/css/choices.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" type="text/css" />
-    {{--<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />--}}
-    {{--<link href="{{ URL::asset('assets/libs/tui-chart/tui-chart.min.css') }}" rel="stylesheet">--}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toast-ui/chart/dist/toastui-chart.min.css">
 @stop
 @section('js')
@@ -255,18 +255,17 @@
     <script src="{{ asset('/assets/js/bootstrap-table-group-by.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery-ui-1.10.4.custom.min.js') }}"></script>
     <script src="{{ asset('/assets/js/moment.min.js') }}"></script>
-    {{--<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>--}}
-    {{--<script src="{{ asset('/assets/libs/tui-chart/tui-chart.min.js') }}"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/@toast-ui/chart"></script>
 <<script>
 
 document.addEventListener('DOMContentLoaded', function() {
     var movilizacion = @json($movilizacion);
-    const el = document.getElementById('chart');
-    const categories = movilizacion.map(item => item.hora);
-    const cantidadData = movilizacion.map(item => item.cant);
-    const acumuladoData = movilizacion.map(item => parseInt(item.acumulado));
-    const data = {
+	/// MOVILIZACION HORA
+    var el = document.getElementById('grf-resumen-hora');
+    var categories = movilizacion.map(item => item.hora);
+    var cantidadData = movilizacion.map(item => item.cant);
+    var acumuladoData = movilizacion.map(item => parseInt(item.acumulado));
+    var data = {
         categories: categories,
         series: [
             {
@@ -279,8 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         ],
     };
-
-    const options = {
+    var options = {
         chart: { title: 'Movilización por Hora y Acumulada', width: 800, height: 500 },
         xAxis: {
             title: 'Hora',
@@ -295,9 +293,118 @@ document.addEventListener('DOMContentLoaded', function() {
             align: 'bottom',
         },
     };
+    var chart = toastui.Chart.lineChart({ el, data, options });
+	/////////MOVILIZACION NUCLEOS
+	var nucleos = @json($nucleos);
+	var el = document.getElementById('grf-nucleos');
+	var series = [];
+	nucleos.forEach(function(item) {
+		series.push({
+			name: item.nucleo,
+			data: [parseInt(item.acumulado)],
+			dataLabels: {
+				visible: true,
+				formatter: function(value, category, series) {
+					return series.name + ': ' + value;
+				}
+			}
+		});
+	});
+	var data = {
+		categories: ['Acumulado'],
+		series: series,
+	};
+	var options = {
+		chart: { title: 'Movilización por Núcleo', width: 800, height: 1000 },
+		xAxis: {
+			title: 'Núcleo',
+		},
+		yAxis: {
+			title: 'Acumulado',
+		},
+		tooltip: {
+			grouped: true,
+		},
+		legend: {
+			align: 'bottom',
+		},
+	};
+	var chart1 = toastui.Chart.barChart({ el, data, options });
+	/////////MOVILIZACION ESTADOS
+	var estados = @json($estados);
+	var el = document.getElementById('grf-estados');
+	var series = [];
+	estados.forEach(function(item) {
+		series.push({
+			name: item.estado,
+			data: [parseInt(item.acumulado)],
+			dataLabels: {
+				visible: true,
+				formatter: function(value, category, series) {
+					return series.name + ': ' + value;
+				}
+			}
+		});
+	});
+	var data = {
+		categories: ['Acumulado'],
+		series: series,
+	};
+	var options = {
+		chart: { title: 'Movilización por Estado', width: 800, height: 800 },
+		xAxis: {
+			title: 'Estado',
+		},
+		yAxis: {
+			title: 'Acumulado',
+		},
+		tooltip: {
+			grouped: true,
+		},
+		legend: {
+			align: 'bottom',
+		},
+	};
+	var chart2 = toastui.Chart.barChart({ el, data, options });
+	/////////MOVILIZACION TIPOS
+	var tipos = @json($tipos);
+	var el = document.getElementById('grf-tipos');
+	var series = [];
+	tipos.forEach(function(item) {
+		series.push({
+			name: item.tipo,
+			data: [parseInt(item.acumulado)],
+			dataLabels: {
+				visible: true,
+				formatter: function(value, category, series) {
+					return series.name + ': ' + value;
+				}
+			}
+		});
+	});
+	var data = {
+		categories: ['Acumulado'],
+		series: series,
+	};
+	var options = {
+		chart: { title: 'Movilización por Tipo de Elector', width: 800, height: 500 },
+		xAxis: {
+			title: 'Tipo Elector',
+		},
+		yAxis: {
+			title: 'Acumulado',
+		},
+		tooltip: {
+			grouped: true,
+		},
+		legend: {
+			align: 'bottom',
+		},
+	};
+	var chart3 = toastui.Chart.barChart({ el, data, options });
 
-    const chart = toastui.Chart.lineChart({ el, data, options });
-});
+});	
+
 
 
 </script>
