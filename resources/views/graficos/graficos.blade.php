@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     };
     var chart = toastui.Chart.lineChart({ el, data, options });
-	/////////MOVILIZACION NUCLEOS
+	// // /////////MOVILIZACION NUCLEOS
 	var nucleos = @json($nucleos);
 	var max_hora_nucleos = @json($max_hora_nucleos);
 	var el = document.getElementById('grf-nucleos');
@@ -316,8 +316,46 @@ document.addEventListener('DOMContentLoaded', function() {
 		categories: ['Acumulado'],
 		series: series,
 	};
+	const theme = {
+		series: {
+			dataLabels: {
+				fontSize: 13,
+				fontWeight: 500,
+				color: '#000',
+				textBubble: { visible: true, arrow: { visible: true } },
+			},
+		},
+		exportMenu: {
+			button: {
+				backgroundColor: '#000000',
+				borderRadius: 5,
+				borderWidth: 2,
+				borderColor: '#000000',
+				xIcon: {
+					color: '#ffffff',
+					lineWidth: 3,
+				},
+				dotIcon: {
+					color: '#ffffff',
+					width: 10,
+					height: 3,
+					gap: 1,
+				},
+			},
+		},
+
+
+	};
+	var nomarch = obtenerFechaHoraActual()+" Movilización por núcleo"
 	var options = {
 		chart: { title: 'Movilización acumulada por núcleo a las '+max_hora_nucleos, width: 800, height: 1000 },
+
+		series: {
+          selectable: true,
+          dataLabels: {
+            visible: true,
+          },
+        },
 		xAxis: {
 			title: 'Núcleo',
 		},
@@ -330,8 +368,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		legend: {
 			align: 'bottom',
 		},
+	// 
+		exportMenu: {
+			filename: nomarch
+		},
+		theme,
 	};
-	var chart1 = toastui.Chart.barChart({ el, data, options });
+	var chart2 = toastui.Chart.barChart({ el, data, options });
 	/////////MOVILIZACION ESTADOS
 	var estados = @json($estados);
 	var el = document.getElementById('grf-estados');
@@ -405,8 +448,22 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 	var chart3 = toastui.Chart.barChart({ el, data, options });
 
-});	
+////////////NUCLEOS//////////////
+function obtenerFechaHoraActual() {
+    let fecha = new Date();
+    let dia = String(fecha.getDate()).padStart(2, '0');
+    let mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript empiezan en 0
+    let año = fecha.getFullYear();
+    let horas = String(fecha.getHours()).padStart(2, '0');
+    let minutos = String(fecha.getMinutes()).padStart(2, '0');
+    let segundos = String(fecha.getSeconds()).padStart(2, '0');
+    let fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos + ':' + segundos;
+    return fechaFormateada;
+}
 
+
+
+});	
 
 
 </script>
