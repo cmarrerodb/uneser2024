@@ -259,8 +259,9 @@
 <<script>
 
 document.addEventListener('DOMContentLoaded', function() {
-    var movilizacion = @json($movilizacion);
 	/// MOVILIZACION HORA
+    var movilizacion = @json($movilizacion);
+    var max_hora_movilizacion = @json($max_hora_movilizacion);
     var el = document.getElementById('grf-resumen-hora');
     var categories = movilizacion.map(item => item.hora);
     var cantidadData = movilizacion.map(item => item.cant);
@@ -279,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
     };
     var options = {
-        chart: { title: 'Movilización por Hora y Acumulada', width: 800, height: 500 },
+        chart: { title: 'Movilización acumulada por hora a las '+max_hora_movilizacion, width: 800, height: 500 },
         xAxis: {
             title: 'Hora',
         },
@@ -296,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var chart = toastui.Chart.lineChart({ el, data, options });
 	/////////MOVILIZACION NUCLEOS
 	var nucleos = @json($nucleos);
+	var max_hora_nucleos = @json($max_hora_nucleos);
 	var el = document.getElementById('grf-nucleos');
 	var series = [];
 	nucleos.forEach(function(item) {
@@ -315,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		series: series,
 	};
 	var options = {
-		chart: { title: 'Movilización por Núcleo', width: 800, height: 1000 },
+		chart: { title: 'Movilización acumulada por núcleo a las '+max_hora_nucleos, width: 800, height: 1000 },
 		xAxis: {
 			title: 'Núcleo',
 		},

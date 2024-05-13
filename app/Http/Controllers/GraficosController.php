@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\VtotalMovilizacionHora;
-use App\Models\VacumuladoEstado;
 use App\Models\VacumuladoNucleo;
+use App\Models\VacumuladoEstado;
 use App\Models\VacumuladoTipo;
 use App\Models\VtotalMovilizacionHoraTra;
 use App\Models\VtotalMovilizacionHoraEst;
@@ -27,12 +27,21 @@ use Illuminate\Support\Facades\DB;
 class GraficosController extends Controller
 {
     public function index() {
+        $max_hora_movilizacion = VtotalMovilizacionHora::max('hora');
         $movilizacion = VtotalMovilizacionHora::all();
         $nucleos = VacumuladoNucleo::all();
+        $max_hora_nucleos = VacumuladoNucleo::max('hora');
         $estados = VacumuladoEstado::all();
         $tipos = VacumuladoTipo::all();
 
-        return view('graficos.graficos',compact('movilizacion','nucleos','estados','tipos'));
+        return view('graficos.graficos',compact(
+            'max_hora_movilizacion',
+            'movilizacion',
+            'nucleos',
+            'max_hora_nucleos',
+            'estados',
+            'tipos'
+        ));
     }
 
     
