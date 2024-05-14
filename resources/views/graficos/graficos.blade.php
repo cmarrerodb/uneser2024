@@ -279,8 +279,52 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         ],
     };
+	var theme = {
+		series: {
+			lineWidth: 5,
+			colors: ['#4407ed', '#012e7a'],
+			//////////////////
+			dataLabels: {
+				fontFamily: 'arial',
+				fontSize: 10,
+				fontWeight: 'bold',
+				useSeriesColor: false,
+				textBubble: {
+					visible: true,
+					paddingY: 3,
+					paddingX: 6,
+					arrow: {
+						visible: true,
+						width: 5,
+						height: 5,
+						direction: 'bottom'
+					}
+				}
+			}
+			//////////////////
+		},	
+		exportMenu: {
+			button: {
+				backgroundColor: '#000000',
+				borderRadius: 5,
+				borderWidth: 2,
+				borderColor: '#000000',
+				xIcon: {
+					color: '#ffffff',
+					lineWidth: 3,
+				},
+				dotIcon: {
+					color: '#ffffff',
+					width: 10,
+					height: 3,
+					gap: 1,
+				},
+			},
+		},		
+	}
+	var nomarch = obtenerFechaHoraActual()+" Movilización por hora"
     var options = {
-        chart: { title: 'Movilización acumulada por hora a las '+max_hora_movilizacion, width: 800, height: 500 },
+        chart: { title: 'Movilización acumulada por hora a las '+max_hora_movilizacion, width: 1000, height: 500 },
         xAxis: {
             title: 'Hora',
         },
@@ -293,6 +337,16 @@ document.addEventListener('DOMContentLoaded', function() {
         legend: {
             align: 'bottom',
         },
+		exportMenu: {
+			filename: nomarch
+		},
+		series: {
+			dataLabels: { 
+				visible: true, 
+				offsetY: -10 
+			},
+		},
+		theme,
     };
     var chart = toastui.Chart.lineChart({ el, data, options });
 	// // /////////MOVILIZACION NUCLEOS
@@ -316,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		categories: ['Acumulado'],
 		series: series,
 	};
-	const theme = {
+	var theme = {
 		series: {
 			dataLabels: {
 				fontSize: 13,
@@ -343,13 +397,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				},
 			},
 		},
-
-
 	};
-	var nomarch = obtenerFechaHoraActual()+" Movilización por núcleo"
+	var nomarch = obtenerFechaHoraActual()+" Movilización por núcleo a las "+max_hora_nucleos
 	var options = {
-		chart: { title: 'Movilización acumulada por núcleo a las '+max_hora_nucleos, width: 800, height: 1000 },
-
+		chart: { title: 'Movilización acumulada por núcleo a las '+max_hora_nucleos, width: 1200, height: 1000 },
 		series: {
           selectable: true,
           dataLabels: {
@@ -368,7 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		legend: {
 			align: 'bottom',
 		},
-	// 
 		exportMenu: {
 			filename: nomarch
 		},
@@ -377,6 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var chart2 = toastui.Chart.barChart({ el, data, options });
 	/////////MOVILIZACION ESTADOS
 	var estados = @json($estados);
+	var max_hora_estados = @json($max_hora_estados);
 	var el = document.getElementById('grf-estados');
 	var series = [];
 	estados.forEach(function(item) {
@@ -395,10 +446,45 @@ document.addEventListener('DOMContentLoaded', function() {
 		categories: ['Acumulado'],
 		series: series,
 	};
+	var theme = {
+		series: {
+			dataLabels: {
+				fontSize: 13,
+				fontWeight: 500,
+				color: '#000',
+				textBubble: { visible: true, arrow: { visible: true } },
+			},
+		},
+		exportMenu: {
+			button: {
+				backgroundColor: '#000000',
+				borderRadius: 5,
+				borderWidth: 2,
+				borderColor: '#000000',
+				xIcon: {
+					color: '#ffffff',
+					lineWidth: 3,
+				},
+				dotIcon: {
+					color: '#ffffff',
+					width: 10,
+					height: 3,
+					gap: 1,
+				},
+			},
+		},
+	};
+	var nomarch = obtenerFechaHoraActual()+" Movilización por estado a las "+max_hora_estados
 	var options = {
-		chart: { title: 'Movilización por Estado', width: 800, height: 800 },
+		chart: { title: 'Movilización acumulada por estado'+max_hora_estados, width: 800, height: 1000 },
+		series: {
+          selectable: true,
+          dataLabels: {
+            visible: true,
+          },
+        },
 		xAxis: {
-			title: 'Estado',
+			title: 'estado',
 		},
 		yAxis: {
 			title: 'Acumulado',
@@ -409,10 +495,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		legend: {
 			align: 'bottom',
 		},
+		exportMenu: {
+			filename: nomarch
+		},
+		theme,
 	};
-	var chart2 = toastui.Chart.barChart({ el, data, options });
+	var chart3 = toastui.Chart.barChart({ el, data, options });
 	/////////MOVILIZACION TIPOS
 	var tipos = @json($tipos);
+	var max_hora_tipos = @json($max_hora_tipos);
 	var el = document.getElementById('grf-tipos');
 	var series = [];
 	tipos.forEach(function(item) {
@@ -431,10 +522,45 @@ document.addEventListener('DOMContentLoaded', function() {
 		categories: ['Acumulado'],
 		series: series,
 	};
+	var theme = {
+		series: {
+			dataLabels: {
+				fontSize: 13,
+				fontWeight: 500,
+				color: '#000',
+				textBubble: { visible: true, arrow: { visible: true } },
+			},
+		},
+		exportMenu: {
+			button: {
+				backgroundColor: '#000000',
+				borderRadius: 5,
+				borderWidth: 2,
+				borderColor: '#000000',
+				xIcon: {
+					color: '#ffffff',
+					lineWidth: 3,
+				},
+				dotIcon: {
+					color: '#ffffff',
+					width: 10,
+					height: 3,
+					gap: 1,
+				},
+			},
+		},
+	};
+	var nomarch = obtenerFechaHoraActual()+" Movilización por tipo de elector a las "+max_hora_tipos
 	var options = {
-		chart: { title: 'Movilización por Tipo de Elector', width: 800, height: 500 },
+		chart: { title: 'Movilización acumulada por elector'+max_hora_tipos, width: 800, height: 1000 },
+		series: {
+          selectable: true,
+          dataLabels: {
+            visible: true,
+          },
+        },
 		xAxis: {
-			title: 'Tipo Elector',
+			title: 'estado',
 		},
 		yAxis: {
 			title: 'Acumulado',
@@ -445,21 +571,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		legend: {
 			align: 'bottom',
 		},
+		exportMenu: {
+			filename: nomarch
+		},
+		theme,
 	};
-	var chart3 = toastui.Chart.barChart({ el, data, options });
+	var chart4 = toastui.Chart.barChart({ el, data, options });
 
-////////////NUCLEOS//////////////
-function obtenerFechaHoraActual() {
-    let fecha = new Date();
-    let dia = String(fecha.getDate()).padStart(2, '0');
-    let mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript empiezan en 0
-    let año = fecha.getFullYear();
-    let horas = String(fecha.getHours()).padStart(2, '0');
-    let minutos = String(fecha.getMinutes()).padStart(2, '0');
-    let segundos = String(fecha.getSeconds()).padStart(2, '0');
-    let fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos + ':' + segundos;
-    return fechaFormateada;
-}
+	function obtenerFechaHoraActual() {
+		let fecha = new Date();
+		let dia = String(fecha.getDate()).padStart(2, '0');
+		let mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript empiezan en 0
+		let año = fecha.getFullYear();
+		let horas = String(fecha.getHours()).padStart(2, '0');
+		let minutos = String(fecha.getMinutes()).padStart(2, '0');
+		let segundos = String(fecha.getSeconds()).padStart(2, '0');
+		let fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos + ':' + segundos;
+		return fechaFormateada;
+	}
 
 
 

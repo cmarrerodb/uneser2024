@@ -32,7 +32,9 @@ class GraficosController extends Controller
         $nucleos = VacumuladoNucleo::all();
         $max_hora_nucleos = VacumuladoNucleo::max('hora');
         $estados = VacumuladoEstado::all();
+        $max_hora_estados = VacumuladoNucleo::max('hora');
         $tipos = VacumuladoTipo::all();
+        $max_hora_tipos = VacumuladoTipo::max('hora');
 
         return view('graficos.graficos',compact(
             'max_hora_movilizacion',
@@ -40,7 +42,9 @@ class GraficosController extends Controller
             'nucleos',
             'max_hora_nucleos',
             'estados',
-            'tipos'
+            'max_hora_estados',
+            'tipos',
+            'max_hora_tipos'
         ));
     }
 
