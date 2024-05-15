@@ -30,6 +30,10 @@
 				<!-- Seccion 2 -->
 				<div class="accordion-body">
                 @include('graficos.partials.nucleos')
+				<hr/>
+                @include('graficos.partials.nucleoshoracant')
+				<hr/>
+                @include('graficos.partials.nucleoshoraacum')
 			</div>
 			</div>
 		</div>
@@ -259,6 +263,179 @@
 <<script>
 
 document.addEventListener('DOMContentLoaded', function() {
+	//////////CANTIDAD////////////////
+	var nucleosHora = @json($nucleos_hora);
+	var el = document.getElementById('grf-nucleoshoracant');
+	var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
+	var seriesData = {};
+	nucleosHora.forEach(item => {
+		if (!seriesData[item.nucleo]) {
+			seriesData[item.nucleo] = {
+				name: item.nucleo,
+				data: [],
+			};
+		}
+		var index = horasUnicas.findIndex(hora => hora === item.hora);
+		seriesData[item.nucleo].data[index] = item.cant;
+	});
+	var series = Object.values(seriesData);
+	var data = {
+		categories: horasUnicas, // Utilizar horas como categorías
+		series: series
+	};
+	var options = {
+		chart: { title: 'Movilización por núcleo y hora', width: 1000, height: 500 },
+		xAxis: {
+			title: 'Hora',
+		},
+		yAxis: {
+			title: 'Cantidad',
+		},
+		tooltip: {
+			grouped: true,
+		},
+		legend: {
+			align: 'bottom',
+		},
+		exportMenu: {
+			filename: obtenerFechaHoraActual() + " Movilización por núcleo y hora"
+		},
+		series: {
+			spline: true,
+			dataLabels: {
+				visible: true,
+				offsetY: -10
+			},
+		},
+		theme: {
+			series: {
+				lineWidth: 5,
+				dataLabels: {
+					fontFamily: 'arial',
+					fontSize: 10,
+					fontWeight: 'bold',
+					useSeriesColor: false,
+					textBubble: {
+						visible: true,
+						paddingY: 3,
+						paddingX: 6,
+						arrow: {
+							visible: true,
+							width: 5,
+							height: 5,
+							direction: 'bottom'
+						}
+					}
+				}
+			},
+			exportMenu: {
+				button: {
+					backgroundColor: '#000000',
+					borderRadius: 5,
+					borderWidth: 2,
+					borderColor: '#000000',
+					xIcon: {
+						color: '#ffffff',
+						lineWidth: 3,
+					},
+					dotIcon: {
+						color: '#ffffff',
+						width: 10,
+						height: 3,
+						gap: 1,
+					},
+				},
+			},
+		}
+	};
+	var chartNucleoHoraCant = toastui.Chart.lineChart({ el, data, options });
+	//////ACUMULADO///////////
+	var nucleosHora = @json($nucleos_hora);
+	var el = document.getElementById('grf-nucleoshoraacum');
+	var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
+	var seriesData = {};
+	nucleosHora.forEach(item => {
+		if (!seriesData[item.nucleo]) {
+			seriesData[item.nucleo] = {
+				name: item.nucleo,
+				data: [],
+			};
+		}
+		var index = horasUnicas.findIndex(hora => hora === item.hora);
+		seriesData[item.nucleo].data[index] = parseInt(item.acumulado);
+	});
+	var series = Object.values(seriesData);
+	var data = {
+		categories: horasUnicas,
+		series: series
+	};
+	var options = {
+		chart: { title: 'Movilización acumulada por núcleo y hora', width: 1000, height: 500 },
+		xAxis: {
+			title: 'Hora',
+		},
+		yAxis: {
+			title: 'Cantidad',
+		},
+		tooltip: {
+			grouped: true,
+		},
+		legend: {
+			align: 'bottom',
+		},
+		exportMenu: {
+			filename: obtenerFechaHoraActual() + " Movilización acumulada por núcleo y hora"
+		},
+		series: {
+			spline: true,
+			dataLabels: {
+				visible: true,
+				offsetY: -10
+			},
+		},
+		theme: {
+			series: {
+				lineWidth: 5,
+				dataLabels: {
+					fontFamily: 'arial',
+					fontSize: 10,
+					fontWeight: 'bold',
+					useSeriesColor: false,
+					textBubble: {
+						visible: true,
+						paddingY: 3,
+						paddingX: 6,
+						arrow: {
+							visible: true,
+							width: 5,
+							height: 5,
+							direction: 'bottom'
+						}
+					}
+				}
+			},
+			exportMenu: {
+				button: {
+					backgroundColor: '#000000',
+					borderRadius: 5,
+					borderWidth: 2,
+					borderColor: '#000000',
+					xIcon: {
+						color: '#ffffff',
+						lineWidth: 3,
+					},
+					dotIcon: {
+						color: '#ffffff',
+						width: 10,
+						height: 3,
+						gap: 1,
+					},
+				},
+			},
+		}
+	};
+	var chartNucleoHoraAcum = toastui.Chart.lineChart({ el, data, options });
+	//////////////////////////
 	/// MOVILIZACION HORA
     var movilizacion = @json($movilizacion);
     var max_hora_movilizacion = @json($max_hora_movilizacion);
@@ -341,6 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			filename: nomarch
 		},
 		series: {
+			spline: true,
 			dataLabels: { 
 				visible: true, 
 				offsetY: -10 
