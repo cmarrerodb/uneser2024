@@ -33,8 +33,6 @@
 				<hr/>
                 @include('graficos.partials.nucleoshoracant')
 				<hr/>
-				<H1>PEPE</H1>
-				<input type='checkbox' id="selNucAcumChK" checked>
                 @include('graficos.partials.nucleoshoraacum')
 			</div>
 			</div>
@@ -265,218 +263,98 @@
 <<script>
 
 document.addEventListener('DOMContentLoaded', function() {
-	//////////CANTIDAD////////////////
-	var nucleosHora = @json($nucleos_hora);
-	var el = document.getElementById('grf-nucleoshoracant');
-	var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
-	var seriesData = {};
-	nucleosHora.forEach(item => {
-		if (!seriesData[item.nucleo]) {
-			seriesData[item.nucleo] = {
-				name: item.nucleo,
-				data: [],
-			};
-		}
-		var index = horasUnicas.findIndex(hora => hora === item.hora);
-		seriesData[item.nucleo].data[index] = item.cant;
-	});
-	var series = Object.values(seriesData);
-	var data = {
-		categories: horasUnicas, // Utilizar horas como categorías
-		series: series
-	};
-	
-	var options = {
-		chart: { title: 'Movilización por núcleo y hora', width: 1200, height: 500 },
-		xAxis: {
-			title: 'Hora',
-		},
-		yAxis: {
-			title: 'Cantidad',
-		},
-		tooltip: {
-			grouped: true,
-		},
-		legend: {
-			align: 'bottom',
-		},
-		exportMenu: {
-			filename: obtenerFechaHoraActual() + " Movilización por núcleo y hora"
-		},
-		series: {
-			spline: true,
-			dataLabels: {
-				visible: true,
-				offsetY: -10
-			},
-		},
-		theme: {
-			series: {
-				lineWidth: 5,
-				dataLabels: {
-					fontFamily: 'arial',
-					fontSize: 10,
-					fontWeight: 'bold',
-					useSeriesColor: false,
-					textBubble: {
-						visible: true,
-						paddingY: 3,
-						paddingX: 6,
-						arrow: {
-							visible: true,
-							width: 5,
-							height: 5,
-							direction: 'bottom'
-						}
-					}
-				}
-			},
-			exportMenu: {
-				button: {
-					backgroundColor: '#000000',
-					borderRadius: 5,
-					borderWidth: 2,
-					borderColor: '#000000',
-					xIcon: {
-						color: '#ffffff',
-						lineWidth: 3,
-					},
-					dotIcon: {
-						color: '#ffffff',
-						width: 10,
-						height: 3,
-						gap: 1,
-					},
-				},
-			},
-		}
-	};
-	var chartNucleoHoraCant = toastui.Chart.lineChart({ el, data, options });
-	//////ACUMULADO///////////
-	var series1 = null;
-	var nucleosHora = @json($nucleos_hora);
-	var el = document.getElementById('grf-nucleoshoraacum');
-	var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
-	var seriesData = {};
-	nucleosHora.forEach(item => {
-		if (!seriesData[item.nucleo]) {
-			seriesData[item.nucleo] = {
-				name: item.nucleo,
-				data: [],
-			};
-		}
-		var index = horasUnicas.findIndex(hora => hora === item.hora);
-		seriesData[item.nucleo].data[index] = parseInt(item.acumulado);
-	});
-	//////OCUPAR EL ANCHO COMPLETO//////
-	// var ancho = window.innerWidth-200;
-	// console.log(ancho)
-	//////OCUPAR EL ANCHO COMPLETO//////
-	series1 = Object.values(seriesData);
-	var data = {
-		categories: horasUnicas,
-		series: series1
-	};
-	var options = {
-		//////OCUPAR EL ANCHO COMPLETO//////
-		// chart: { title: 'Movilización acumulada por núcleo y hora', width: ancho, height: 500 },
-		//////OCUPAR EL ANCHO COMPLETO//////
-		chart: { title: 'Movilización acumulada por núcleo y hora', width: 1100, height: 500 },
-		xAxis: {
-			title: 'Hora',
-		},
-		yAxis: {
-			title: 'Cantidad',
-		},
-		tooltip: {
-			grouped: true,
-		},
-		legend: {
-			align: 'bottom',
-		},
-		exportMenu: {
-			filename: obtenerFechaHoraActual() + " Movilización acumulada por núcleo y hora"
-		},
-		series: {
-			spline: true,
-			selectable:true,
-			dataLabels: {
-				visible: true,
-				offsetY: -10
-			},
-		},
-		theme: {
-			series: {
-				lineWidth: 5,
-				dataLabels: {
-					fontFamily: 'arial',
-					fontSize: 10,
-					fontWeight: 'bold',
-					useSeriesColor: false,
-					textBubble: {
-						visible: true,
-						paddingY: 3,
-						paddingX: 6,
-						arrow: {
-							visible: true,
-							width: 5,
-							height: 5,
-							direction: 'bottom'
-						}
-					}
-				}
-			},
-			exportMenu: {
-				button: {
-					backgroundColor: '#000000',
-					borderRadius: 5,
-					borderWidth: 2,
-					borderColor: '#000000',
-					xIcon: {
-						color: '#ffffff',
-						lineWidth: 3,
-					},
-					dotIcon: {
-						color: '#ffffff',
-						width: 10,
-						height: 3,
-						gap: 1,
-					},
-				},
-			},
-		}
-	};
-	let var_graf = 'chartNucleoHoraAcum';
-	eval(var_graf) = toastui.Chart.lineChart({ el, data, options });
-	// var chartNucleoHoraAcum = toastui.Chart.lineChart({ el, data, options });
-	///////CHECK NUCLKEOS ACUMULADOS/////////////
-	// Obtener una referencia al checkbox y al gráfico
-	// console.log(series)
-	// console.log(chartNucleoHoraAcum.getCheckedLegends())
-	var selectAllCheckbox = document.getElementById('selNucAcumChK');
-	selectAllCheckbox.addEventListener('change', function() {
-    var checked = this.checked;
+	////DATA PARA REGIÓN CAPITAL//////
+	let data1 = @json($nucleos_hora_cap);
+	let contenedor1 = 'grf-nucleoshoracancap';
+	let valor1 = 'cant';
+	let titulo1 = 'Movilización Región Capital';
+	let can_nucleos_hora_cap;
+	generarGrafica(data1, contenedor1, valor1, titulo1, can_nucleos_hora_cap);
+	let data2 = @json($nucleos_hora_cap);
+	let contenedor2 = 'grf-nucleoshoraacucap';
+	let valor2 = 'acumulado';
+	let titulo2 = 'Movilización acumulada Región Capital';
+	let acum_nucleos_hora_cap;
+	generarGrafica(data2, contenedor2, valor2, titulo2, acum_nucleos_hora_cap);	
 
-    // Obtener todas las series del gráfico
-    // var series = chartNucleoHoraAcum.getDataProvider().getSeriesData();
-    // var series = chartNucleoHoraAcum.getSeriesData();
-    // Seleccionar o deseleccionar todas las series según el estado del checkbox
-    if (checked) {
-        series1.forEach(function(seriesInfo) {
-            // chartNucleoHoraAcum.selectSeries(seriesInfo);
-			chartNucleoHoraAcum.showSeriesDataLabel();
-        });
-    } else {
-        series1.forEach(function(seriesInfo) {
-			// console.log(seriesInfo)
-            // chartNucleoHoraAcum.unselectSeries(seriesInfo);
-            chartNucleoHoraAcum.hideSeriesDataLabel();
-			// chartNucleoHoraAcum.unselectSeries("SUCRE");
-        });
-    }
-});	
-	///////CHECK NUCLKEOS ACUMULADOS/////////////	
-	//////////////////////////
+	let data3 = @json($nucleos_hora_cen);
+	let contenedor3 = 'grf-nucleoshoracancen';
+	let valor3 = 'cant';
+	let titulo3 = 'Movilización Región Centro';
+	let can_nucleos_hora_cen;
+	generarGrafica(data3, contenedor3, valor3, titulo3, can_nucleos_hora_cen);	
+	let data4 = @json($nucleos_hora_cen);
+	let contenedor4 = 'grf-nucleoshoraacucen';
+	let valor4 = 'acumulado';
+	let titulo4 = 'Movilización acumulada Región Centro';
+	let acum_nucleos_hora_cen;
+	generarGrafica(data4, contenedor4, valor4, titulo4, acum_nucleos_hora_cen);	
+
+	let data5 = @json($nucleos_hora_occ);
+	let contenedor5 = 'grf-nucleoshoracanocc';
+	let valor5 = 'cant';
+	let titulo5 = 'Movilización Región Occidente';
+	let cant_nucleos_hora_occ;
+	generarGrafica(data5, contenedor5, valor5, titulo5, cant_nucleos_hora_occ);	
+	let data6 = @json($nucleos_hora_occ);
+	let contenedor6 = 'grf-nucleoshoraacuocc';
+	let valor6 = 'acumulado';
+	let titulo6 = 'Movilización acumulada Región Occidente';
+	let acum_nucleos_hora_occ;
+	generarGrafica(data6, contenedor6, valor6, titulo6, acum_nucleos_hora_occ);	
+
+	let data7 = @json($nucleos_hora_and);
+	let contenedor7 = 'grf-nucleoshoracanand';
+	let valor7 = 'cant';
+	let titulo7 = 'Movilización Región Andes';
+	let cant_nucleos_hora_and;
+	generarGrafica(data7, contenedor7, valor7, titulo7, cant_nucleos_hora_occ);	
+	let data8 = @json($nucleos_hora_and);
+	let contenedor8 = 'grf-nucleoshoraacuand';
+	let valor8 = 'acumulado';
+	let titulo8 = 'Movilización acumulada Región Andes';
+	let acum_nucleos_hora_and;
+	generarGrafica(data8, contenedor8, valor8, titulo8, acum_nucleos_hora_occ);	
+
+	let data9 = @json($nucleos_hora_lla);
+	let contenedor9 = 'grf-nucleoshoracanlla';
+	let valor9 = 'cant';
+	let titulo9 = 'Movilización Región Llanos';
+	let cant_nucleos_hora_lla;
+	generarGrafica(data9, contenedor9, valor9, titulo9, cant_nucleos_hora_lla);	
+	let data10 = @json($nucleos_hora_lla);
+	let contenedor10 = 'grf-nucleoshoraaculla';
+	let valor10 = 'acumulado';
+	let titulo10 = 'Movilización acumulada Región Llanos';
+	let acum_nucleos_hora_lla;
+	generarGrafica(data10, contenedor10, valor10, titulo10, acum_nucleos_hora_lla);	
+
+	let data11 = @json($nucleos_hora_ori);
+	let contenedor11 = 'grf-nucleoshoracanori';
+	let valor11 = 'cant';
+	let titulo11 = 'Movilización Región Oriente';
+	let cant_nucleos_hora_ori;
+	generarGrafica(data11, contenedor11, valor11, titulo11, cant_nucleos_hora_ori);	
+	let data12 = @json($nucleos_hora_ori);
+	let contenedor12 = 'grf-nucleoshoraacuori';
+	let valor12 = 'acumulado';
+	let titulo12 = 'Movilización acumulada Región Oriente';
+	let acum_nucleos_hora_ori;
+	generarGrafica(data12, contenedor12, valor12, titulo12, acum_nucleos_hora_ori);	
+
+	let data13 = @json($nucleos_hora_sur);
+	let contenedor13 = 'grf-nucleoshoracansur';
+	let valor13 = 'cant';
+	let titulo13 = 'Movilización Región Sur';
+	let cant_nucleos_hora_sur;
+	generarGrafica(data13, contenedor13, valor13, titulo13, cant_nucleos_hora_sur);	
+	let data14 = @json($nucleos_hora_sur);
+	let contenedor14 = 'grf-nucleoshoraacusur';
+	let valor14 = 'acumulado';
+	let titulo14 = 'Movilización acumulada Región Sur';
+	let acum_nucleos_hora_sur;
+	generarGrafica(data14, contenedor14, valor14, titulo14, acum_nucleos_hora_sur);	
+
 	/// MOVILIZACION HORA
     var movilizacion = @json($movilizacion);
     var max_hora_movilizacion = @json($max_hora_movilizacion);
@@ -795,6 +673,95 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 	var chart4 = toastui.Chart.barChart({ el, data, options });
 
+	function generarGrafica(data, contenedor, valor, titulo, var_graf) {
+		var series1 = null;
+		var nucleosHora = data;
+		var el = document.getElementById(contenedor);
+		var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
+		var seriesData = {};
+		nucleosHora.forEach(item => {
+			if (!seriesData[item.nucleo]) {
+			seriesData[item.nucleo] = {
+				name: item.nucleo,
+				data: [],
+			};
+			}
+			var index = horasUnicas.findIndex(hora => hora === item.hora);
+			seriesData[item.nucleo].data[index] = parseInt(item[valor]);
+		});
+		series1 = Object.values(seriesData);
+		var graficaData = {
+			categories: horasUnicas,
+			series: series1
+		};
+		var options = {
+			chart: { title: titulo, width: 1100, height: 500 },
+			xAxis: {
+			title: 'Hora',
+			},
+			yAxis: {
+			title: 'Cantidad',
+			},
+			tooltip: {
+			grouped: true,
+			},
+			legend: {
+			align: 'bottom',
+			},
+			exportMenu: {
+			filename: obtenerFechaHoraActual() + " " + titulo
+			},
+			series: {
+			spline: true,
+			selectable:true,
+			dataLabels: {
+				visible: true,
+				offsetY: -10
+			},
+			},
+			theme: {
+			series: {
+				lineWidth: 5,
+				dataLabels: {
+				fontFamily: 'arial',
+				fontSize: 10,
+				fontWeight: 'bold',
+				useSeriesColor: false,
+				textBubble: {
+					visible: true,
+					paddingY: 3,
+					paddingX: 6,
+					arrow: {
+					visible: true,
+					width: 5,
+					height: 5,
+					direction: 'bottom'
+					}
+				}
+				}
+			},
+			exportMenu: {
+				button: {
+				backgroundColor: '#000000',
+				borderRadius: 5,
+				borderWidth: 2,
+				borderColor: '#000000',
+				xIcon: {
+					color: '#ffffff',
+					lineWidth: 3,
+				},
+				dotIcon: {
+					color: '#ffffff',
+					width: 10,
+					height: 3,
+					gap: 1,
+				},
+				},
+			},
+			}
+		};
+		var_graf = toastui.Chart.lineChart({ el, data: graficaData, options });
+	}
 	function obtenerFechaHoraActual() {
 		let fecha = new Date();
 		let dia = String(fecha.getDate()).padStart(2, '0');
@@ -806,10 +773,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		let fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos + ':' + segundos;
 		return fechaFormateada;
 	}
-
-
-
-
 });	
 
 

@@ -34,19 +34,37 @@ class GraficosController extends Controller
         // $nucleos_hora = VtipoNucleoMovilizacionHora::all();
         // $nucleos_hora = VnucleosMovilizacionHora::where('nucleo','='.'SUCRE')->get();
         $capital = ['CARICUAO','CEPAP','EL VALLE','IDECYT','PALO VERDE','POSTGRADO','SANTA FE'];
-        // $nucleos_hora = VnucleosMovilizacionHora::all();
-        $nucleos_hora = VnucleosMovilizacionHora::whereIn('nucleo',$capital)->get();
+        $centro = ['CANOABO','LOS TEQUES','MARACAY','OCUMARE DEL TUY','VALENCIA'];
+        $andes = ['EL VIGÍA','LA GRITA','EL VALLE','SIMÓN DE MUCUCHÍES','VALERA'];
+        $llanos = ['APURE','ARAURE','SAN CARLOS','SAN JUAN DE LOS MORROS','VALLE DE LA PASCUA','ZARAZA'];
+        $occidente = ['BARQUISIMETO','CORO'];
+        $oriente = ['BARCELONA','MATURÍN','SUCRE'];
+        $sur = ['CIUDAD BOLÍVAR'];
+        $nucleos_hora = VnucleosMovilizacionHora::all();
+        $nucleos_hora_cap = VnucleosMovilizacionHora::whereIn('nucleo',$capital)->get();
+        $nucleos_hora_cen = VnucleosMovilizacionHora::whereIn('nucleo',$centro)->get();
+        $nucleos_hora_and = VnucleosMovilizacionHora::whereIn('nucleo',$andes)->get();
+        $nucleos_hora_lla = VnucleosMovilizacionHora::whereIn('nucleo',$llanos)->get();
+        $nucleos_hora_occ = VnucleosMovilizacionHora::whereIn('nucleo',$occidente)->where('hora','<>','04:00:00')->get();
+        $nucleos_hora_ori = VnucleosMovilizacionHora::whereIn('nucleo',$oriente)->get();
+        $nucleos_hora_sur = VnucleosMovilizacionHora::whereIn('nucleo',$sur)->get();
         $max_hora_nucleos = VacumuladoNucleo::max('hora');
         $estados = VacumuladoEstado::all();
         $max_hora_estados = VacumuladoNucleo::max('hora');
         $tipos = VacumuladoTipo::all();
         $max_hora_tipos = VacumuladoTipo::max('hora');
-
         return view('graficos.graficos',compact(
             'max_hora_movilizacion',
             'movilizacion',
             'nucleos',
             'nucleos_hora',
+            'nucleos_hora_cap',
+            'nucleos_hora_cen',
+            'nucleos_hora_and',
+            'nucleos_hora_lla',
+            'nucleos_hora_occ',
+            'nucleos_hora_ori',
+            'nucleos_hora_sur',
             'max_hora_nucleos',
             'estados',
             'max_hora_estados',
