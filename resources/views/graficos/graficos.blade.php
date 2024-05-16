@@ -33,6 +33,8 @@
 				<hr/>
                 @include('graficos.partials.nucleoshoracant')
 				<hr/>
+				<H1>PEPE</H1>
+				<input type='checkbox' id="selNucAcumChK" checked>
                 @include('graficos.partials.nucleoshoraacum')
 			</div>
 			</div>
@@ -283,8 +285,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		categories: horasUnicas, // Utilizar horas como categorías
 		series: series
 	};
+	
 	var options = {
-		chart: { title: 'Movilización por núcleo y hora', width: 1000, height: 500 },
+		chart: { title: 'Movilización por núcleo y hora', width: 1200, height: 500 },
 		xAxis: {
 			title: 'Hora',
 		},
@@ -350,6 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	};
 	var chartNucleoHoraCant = toastui.Chart.lineChart({ el, data, options });
 	//////ACUMULADO///////////
+	var series1 = null;
 	var nucleosHora = @json($nucleos_hora);
 	var el = document.getElementById('grf-nucleoshoraacum');
 	var horasUnicas = [...new Set(nucleosHora.map(item => item.hora))];
@@ -364,13 +368,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		var index = horasUnicas.findIndex(hora => hora === item.hora);
 		seriesData[item.nucleo].data[index] = parseInt(item.acumulado);
 	});
-	var series = Object.values(seriesData);
+	//////OCUPAR EL ANCHO COMPLETO//////
+	// var ancho = window.innerWidth-200;
+	// console.log(ancho)
+	//////OCUPAR EL ANCHO COMPLETO//////
+	series1 = Object.values(seriesData);
 	var data = {
 		categories: horasUnicas,
-		series: series
+		series: series1
 	};
 	var options = {
-		chart: { title: 'Movilización acumulada por núcleo y hora', width: 1000, height: 500 },
+		//////OCUPAR EL ANCHO COMPLETO//////
+		// chart: { title: 'Movilización acumulada por núcleo y hora', width: ancho, height: 500 },
+		//////OCUPAR EL ANCHO COMPLETO//////
+		chart: { title: 'Movilización acumulada por núcleo y hora', width: 1100, height: 500 },
 		xAxis: {
 			title: 'Hora',
 		},
@@ -388,6 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		},
 		series: {
 			spline: true,
+			selectable:true,
 			dataLabels: {
 				visible: true,
 				offsetY: -10
@@ -434,7 +446,36 @@ document.addEventListener('DOMContentLoaded', function() {
 			},
 		}
 	};
-	var chartNucleoHoraAcum = toastui.Chart.lineChart({ el, data, options });
+	let var_graf = 'chartNucleoHoraAcum';
+	eval(var_graf) = toastui.Chart.lineChart({ el, data, options });
+	// var chartNucleoHoraAcum = toastui.Chart.lineChart({ el, data, options });
+	///////CHECK NUCLKEOS ACUMULADOS/////////////
+	// Obtener una referencia al checkbox y al gráfico
+	// console.log(series)
+	// console.log(chartNucleoHoraAcum.getCheckedLegends())
+	var selectAllCheckbox = document.getElementById('selNucAcumChK');
+	selectAllCheckbox.addEventListener('change', function() {
+    var checked = this.checked;
+
+    // Obtener todas las series del gráfico
+    // var series = chartNucleoHoraAcum.getDataProvider().getSeriesData();
+    // var series = chartNucleoHoraAcum.getSeriesData();
+    // Seleccionar o deseleccionar todas las series según el estado del checkbox
+    if (checked) {
+        series1.forEach(function(seriesInfo) {
+            // chartNucleoHoraAcum.selectSeries(seriesInfo);
+			chartNucleoHoraAcum.showSeriesDataLabel();
+        });
+    } else {
+        series1.forEach(function(seriesInfo) {
+			// console.log(seriesInfo)
+            // chartNucleoHoraAcum.unselectSeries(seriesInfo);
+            chartNucleoHoraAcum.hideSeriesDataLabel();
+			// chartNucleoHoraAcum.unselectSeries("SUCRE");
+        });
+    }
+});	
+	///////CHECK NUCLKEOS ACUMULADOS/////////////	
 	//////////////////////////
 	/// MOVILIZACION HORA
     var movilizacion = @json($movilizacion);
@@ -460,7 +501,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		series: {
 			lineWidth: 5,
 			colors: ['#4407ed', '#012e7a'],
-			//////////////////
 			dataLabels: {
 				fontFamily: 'arial',
 				fontSize: 10,
@@ -478,7 +518,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}
-			//////////////////
 		},	
 		exportMenu: {
 			button: {
@@ -767,6 +806,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		let fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos + ':' + segundos;
 		return fechaFormateada;
 	}
+
 
 
 

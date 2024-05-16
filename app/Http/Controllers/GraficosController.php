@@ -30,7 +30,12 @@ class GraficosController extends Controller
         $max_hora_movilizacion = VtotalMovilizacionHora::max('hora');
         $movilizacion = VtotalMovilizacionHora::all();
         $nucleos = VacumuladoNucleo::all();
-        $nucleos_hora = VtipoNucleoMovilizacionHora::all();
+        // $nucleos = VacumuladoNucleo::where('nucleo','='.'SUCRE')->get();
+        // $nucleos_hora = VtipoNucleoMovilizacionHora::all();
+        // $nucleos_hora = VnucleosMovilizacionHora::where('nucleo','='.'SUCRE')->get();
+        $capital = ['CARICUAO','CEPAP','EL VALLE','IDECYT','PALO VERDE','POSTGRADO','SANTA FE'];
+        // $nucleos_hora = VnucleosMovilizacionHora::all();
+        $nucleos_hora = VnucleosMovilizacionHora::whereIn('nucleo',$capital)->get();
         $max_hora_nucleos = VacumuladoNucleo::max('hora');
         $estados = VacumuladoEstado::all();
         $max_hora_estados = VacumuladoNucleo::max('hora');
