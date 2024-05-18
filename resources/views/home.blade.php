@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-    {{print_r($gr_total_electores,true)}}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="card text-white bg-primary mb-3 mr-3 border-dark shadow-lg rounded">
@@ -119,54 +118,7 @@
             </div>            
         </div>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="table-container">
-                <table 
-                    id="tbl-mov-gen" 
-                    class="table table-hover" 
-                    data-toolbar="#toolbar"
-                    data-toggle="table" 
-                    data-url="{{route('elect_gen_mov')}}" 
-                    data-pagination="true" 
-                    data-page-list="[10, 20, 50,  100, 'All']" 
-                    data-page-size-options='["10", "20", "50", "100", "Todos"]' 
-                    data-custom-all-text="Todos"
-                    data-page-size-func="pageSizeFunc"
-                    data-page-size="10" 
-                    data-show-export="true" 
-                    data-export-data-type="all" 
-                    data-export-types="['csv', 'json', 'excel']" 
-                    data-show-fullscreen="true" 
-                    data-show-print="true" 
-                    data-locale="es-VE"
-                    data-search-accent-neutralise="true"
-                    data-show-refresh="true"
-                >
-                    <thead>
-                        <tr>
-                            <th colspan="4">MOVILIZACIÓN GENERAL</th>
-                        </tr>
-                        <tr>
-                            <th data-field="tipo">TIPO</th>
-                            <th data-field="total_movilizados">MOVILIZDOS</th>
-                            <th data-field="total_pormovilizar">POR MOVILIZAR</th>
-                            <th data-field="total">TOTAL</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="card-body">
-                <button id="fullscreenBtn"  class = "btn btn-dark text-light" title="expandir gráfico"><i class="fas fa-expand-alt"></i></button>
-                <div id="grf-mov-gen" dir="ltr" style="display:flex;justify-content:center;">
-                </div>
-             </div>
-        </div>
-    </div>
+    @include("dashboard.partials.mov-gen")
 @stop
 @section('css')
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
@@ -200,59 +152,76 @@
                 categories: ["MOVILIZACIÓN"],
                 series: []
             };
-                var total = Object.values(originalObj).reduce((acc, curr) => acc + curr, 0);
-                for (var key in originalObj) {
-                    if (originalObj.hasOwnProperty(key)) {
-                        var percentage = originalObj[key];
-                        newObj.series.push({
-                            name: key,
-                            data: percentage
-                        });
+            for (var key in originalObj) {
+                if (originalObj.hasOwnProperty(key)) {
+                    var percentage = originalObj[key];
+                    newObj.series.push({
+                        name: key,
+                        data: percentage
+                    });
+                }
+            }    
+            var data = newObj;
+            var theme = {
+                series: {
+                    colors: ['#4407ed', '#012e7a'],
+                    dataLabels: {
+                        fontFamily: 'arial',
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        useSeriesColor: false,
+                        textBubble: {
+                            visible: true,
+                            paddingY: 3,
+                            paddingX: 6,
+                            arrow: {
+                                visible: true,
+                                width: 5,
+                                height: 5,
+                                direction: 'bottom'
+                            }
+                        }
                     }
-                }    
-                var data = newObj;
-                var theme = {
-                    series: {
-                        dataLabels: {
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: '#000',
-                            textBubble: { visible: true, arrow: { visible: true } },
+                },
+                exportMenu: {
+                    button: {
+                        backgroundColor: '#000000',
+                        borderRadius: 5,
+                        borderWidth: 2,
+                        borderColor: '#000000',
+                        xIcon: {
+                            color: '#ffffff',
+                            lineWidth: 3,
+                        },
+                        dotIcon: {
+                            color: '#ffffff',
+                            width: 10,
+                            height: 3,
+                            gap: 1,
                         },
                     },
-                    exportMenu: {
-                        button: {
-                            backgroundColor: '#000000',
-                            borderRadius: 5,
-                            borderWidth: 2,
-                            borderColor: '#000000',
-                            xIcon: {
-                                color: '#ffffff',
-                                lineWidth: 3,
-                            },
-                            dotIcon: {
-                                color: '#ffffff',
-                                width: 10,
-                                height: 3,
-                                gap: 1,
-                            },
-                        },
+                },
+            };
+            const options = {
+                chart: { title: 'UNESR - ELECTORES MIVILIZADOS Y POR MOVILIZAR', width: 600, height: 400 },
+                series: {
+                    radiusRange: {
+                        inner: '60%',
+                        outer: '100%',
                     },
-                };
-
-                const options = {
-                    chart: { title: 'UNESR - ELECTORES MIVILIZADOS Y POR MOVILIZAR', width: 600, height: 400 },
-                    series: {
-                        radiusRange: {
-                            inner: '60%',
-                            outer: '100%',
-                        },
+                    dataLabels: { 
+                        visible: true, 
+                        anchor:'outer',
+                        pieSeriesName: {
+                            visible: true,
+                            anchor: 'outer'
+                        }
                     },
-                    theme
+                },
+                theme
             };
             const chart = toastui.Chart.pieChart({ el, data, options });
-            ////////////////
-            var fullscreenBtn = document.getElementById('fullscreenBtn');
+            var fullscreenBtn = document.getElementById('fullscreenBtnGr1');
             let isFullscreen = false;
             let originalPosition;
             fullscreenBtn.addEventListener('click', function() {
