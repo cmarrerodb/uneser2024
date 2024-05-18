@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermissionsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\AuxiliarController;
 use App\Http\Controllers\RolesController;
@@ -21,7 +22,8 @@ use App\Http\Controllers\GraficosController;
 */
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 Route::get('/home', function() {
     return view('home');
@@ -63,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('graficos_movilizacion', [GraficosController::class, 'index'])->name('graph.movilization');
     Route::get('/grafico_hora',[GraficosController::class,'grafico_hora'])->name('grafico_hora');
+    
+    Route::get('/elect_gen_mov',[HomeController::class,'elect_gen_mov'])->name('elect_gen_mov');
+    Route::get('/elect_gen_tra',[HomeController::class,'elect_gen_tra'])->name('elect_gen_tra');
     // Route::get('grafico_nucleo',[GraficoController::class,'grafico_nucleo'])->name('grafico_nucleo');
     // Route::get('grafico_estado',[GraficoController::class,'grafico_estado'])->name('grafico_estado');
     // Route::get('grafico_tipo',[GraficoController::class,'grafico_tipo'])->name('grafico_tipo');
