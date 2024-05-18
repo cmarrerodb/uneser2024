@@ -161,10 +161,11 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="card-body">
-                    <div id="grf-mov-gen" dir="ltr" style="display:flex;justify-content:center;">
-                    </div>
+                <button id="fullscreenBtn"  class = "btn btn-dark text-light" title="expandir gráfico"><i class="fas fa-expand-alt"></i></button>
+                <div id="grf-mov-gen" dir="ltr" style="display:flex;justify-content:center;">
                 </div>
-            </div>
+             </div>
+        </div>
     </div>
 @stop
 @section('css')
@@ -210,17 +211,90 @@
                     }
                 }    
                 var data = newObj;
-                console.log(data)
+                var theme = {
+                    series: {
+                        dataLabels: {
+                            fontSize: 13,
+                            fontWeight: 500,
+                            color: '#000',
+                            textBubble: { visible: true, arrow: { visible: true } },
+                        },
+                    },
+                    exportMenu: {
+                        button: {
+                            backgroundColor: '#000000',
+                            borderRadius: 5,
+                            borderWidth: 2,
+                            borderColor: '#000000',
+                            xIcon: {
+                                color: '#ffffff',
+                                lineWidth: 3,
+                            },
+                            dotIcon: {
+                                color: '#ffffff',
+                                width: 10,
+                                height: 3,
+                                gap: 1,
+                            },
+                        },
+                    },
+                };
+
                 const options = {
-                    chart: { title: 'Usage share of web browsers', width: 600, height: 400 },
+                    chart: { title: 'UNESR - ELECTORES MIVILIZADOS Y POR MOVILIZAR', width: 600, height: 400 },
                     series: {
                         radiusRange: {
-                        inner: '60%',
-                        outer: '100%',
-                        }
-                    }        
+                            inner: '60%',
+                            outer: '100%',
+                        },
+                    },
+                    theme
             };
             const chart = toastui.Chart.pieChart({ el, data, options });
+            ////////////////
+            var fullscreenBtn = document.getElementById('fullscreenBtn');
+            let isFullscreen = false;
+            let originalPosition;
+            fullscreenBtn.addEventListener('click', function() {
+                if (!isFullscreen) {
+                    fullscreenBtn.style.position = 'fixed';
+                    fullscreenBtn.style.left = '10%';
+                    fullscreenBtn.style.top = '2%';
+                    fullscreenBtn.style.zIndex = 100000;
+                    originalPosition = el.getBoundingClientRect();
+                    el.style.position = 'fixed';
+                    el.style.top = '50px';
+                    el.style.left = '80px';
+                    el.style.width = 'calc(100vw - 20px)';
+                    el.style.height = 'calc(100vh - 100px)';
+                    options.chart.width = window.innerWidth - 100;
+                    options.chart.height = window.innerHeight;
+                    chart.resize({
+                        width: window.innerWidth - 100,
+                        height: window.innerHeight            
+                    });
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                    fullscreenBtn.title = "Contraer gráfico"
+                } else {
+                    el.style.position = 'static';
+                    el.style.top = '';
+                    el.style.left = '';
+                    el.style.width = originalPosition.width + 'px';
+                    el.style.height = originalPosition.height + 'px';
+                    options.chart.width = originalPosition.width;
+                    options.chart.height = originalPosition.height;
+                    chart.resize({
+                        width: originalPosition.width,
+                        height: originalPosition.height
+                    });
+                    fullscreenBtn.style.position = 'relative';
+                    fullscreenBtn.style.left = '0%';
+                    fullscreenBtn.style.top = '0%';
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
+                    fullscreenBtn.title = "Expander gráfico"
+                }
+                isFullscreen = !isFullscreen;
+            });
         });
     </script>
 @stop
