@@ -24,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $movilizacion_tra=Vmovilizacion::select('tipo AS TIPO','total_movilizados AS MOVILIZADOS','total_pormovilizar AS FALTANTES')
+            ->where('tipo','<>','total_electores')
+            ->where('tipo','<>','total_estudiantes')
+            ->where('tipo','<>','total_trabajadores')
+            ->get();
         $movilizacion = Vmovilizacion::all();
         foreach ($movilizacion as $registro) {
             ${$registro->tipo} = [
@@ -39,7 +44,6 @@ class HomeController extends Controller
         $jgr_total_obreros = $total_obreros;
         $jgr_total_jubilados = $total_jubilados;
         $jgr_total_pensionados = $total_pensionados;
-
         $gr_total_electores = json_encode($this->modificarArray($jgr_total_electores));
         $gr_total_estudiantes = json_encode($this->modificarArray($jgr_total_estudiantes));
         $gr_total_trabajadores = json_encode($this->modificarArray($jgr_total_trabajadores));
@@ -62,15 +66,14 @@ class HomeController extends Controller
             'gr_total_administrativos',
             'gr_total_obreros',
             'gr_total_jubilados',
-            'gr_total_pensionados'
+            'gr_total_pensionados',
+            'movilizacion_tra'
         ));
     }
     private function modificarArray($array)
     {
         if (array_key_exists('total', $array)) {
-            // Eliminar la clave 'total'
             unset($array['total']);
-            // Cambiar las claves 'total_movilizados' y 'total_pormovilizar'
             $array['TOTAL MOVILIZADOS'] = $array['total_movilizados'];
             $array['POR MOVILIZAR'] = $array['total_pormovilizar'];
             unset($array['total_movilizados']);
