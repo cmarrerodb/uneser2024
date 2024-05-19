@@ -242,6 +242,7 @@ fullscreenBtn.addEventListener('click', function() {
         fullscreenBtn.style.position = 'relative';
         fullscreenBtn.style.left = '0%';
         fullscreenBtn.style.top = '0%';
+        fullscreenBtn.style.zIndex = 0;
         fullscreenBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
         fullscreenBtn.title = "Expandir gráfico";
     }
@@ -449,6 +450,7 @@ fullscreenBtn.addEventListener('click', function() {
                     fullscreenBtn.style.position = 'relative';
                     fullscreenBtn.style.left = '0%';
                     fullscreenBtn.style.top = '0%';
+                    fullscreenBtn.style.zIndex = 0;
                     fullscreenBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
                     fullscreenBtn.title = "Expander gráfico"
                 }
