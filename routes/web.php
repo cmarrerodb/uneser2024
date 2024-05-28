@@ -25,7 +25,8 @@ Auth::routes();
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Auth::routes();
-Route::get('/home', function() {
+Route::get('/', function() {
+// Route::get('/home', function() {
     return view('home');
 })->name('home')->middleware('auth');
 Route::middleware(['auth'])->group(function () {
